@@ -50,6 +50,25 @@ class TechNoteApp {
             }
         });
 
+        // 記事カードのクリック機能
+        document.addEventListener('click', (e) => {
+            const articleCard = e.target.closest('.article-card');
+            const articleLink = e.target.closest('a');
+            
+            // リンクがクリックされた場合はそのまま遷移
+            if (articleLink) {
+                return true;
+            }
+            
+            // 記事カード全体がクリックされた場合
+            if (articleCard && !e.target.closest('.article-stats')) {
+                const titleLink = articleCard.querySelector('.article-title a');
+                if (titleLink) {
+                    window.location.href = titleLink.href;
+                }
+            }
+        });
+
         // スムーズスクロール
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
