@@ -209,9 +209,9 @@ JSON形式で返してください：
                 "author_avatar": persona['avatar'],
                 "publish_date": datetime.now().strftime("%Y-%m-%d %H:%M"),
                 "id": f"auto_{int(time.time())}",
-                "views": random.randint(100, 1000),
-                "likes": random.randint(10, 100),
-                "comments": random.randint(0, 20)
+                "views": 0,
+                "likes": 0,
+                "comments": 0
             })
             
             return article_data

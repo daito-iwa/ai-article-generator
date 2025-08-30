@@ -256,16 +256,16 @@ class TechNoteApp {
                         </div>
                         <div class="article-stats">
                             <span class="stat" data-article-id="${article.id}">
-                                <i class="fas fa-heart"></i>
-                                ${article.stats.likes}
+                                <i class="far fa-heart"></i>
+                                <span class="count">0</span>
                             </span>
                             <span class="stat">
                                 <i class="fas fa-comment"></i>
-                                ${article.stats.comments}
+                                <span class="count">0</span>
                             </span>
                             <span class="stat">
                                 <i class="fas fa-eye"></i>
-                                ${this.formatNumber(article.stats.views)}
+                                <span class="count">-</span>
                             </span>
                         </div>
                     </div>

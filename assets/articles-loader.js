@@ -12,6 +12,12 @@ class ArticlesLoader {
         
         // 記事を表示
         this.displayArticles();
+        
+        // デモデータも即座に表示（JSONがまだ反映されていない場合）
+        if (this.articlesData.length === 0) {
+            this.articlesData = this.getDemoArticles();
+            this.displayArticles();
+        }
     }
 
     async loadArticles() {
@@ -34,6 +40,21 @@ class ArticlesLoader {
         // デモ用の記事データ
         return [
             {
+                id: "auto_1756565303",
+                title: "AR/VRの基礎知識と実践方法",
+                summary: "AR/VRについて、初心者にも分かりやすく解説します。実践的なテクニックと最新情報をお届けします。",
+                author: "M.Y",
+                author_role: "ライフスタイル",
+                author_avatar: "MY",
+                publish_date: "2025-08-30 23:48",
+                category: "副業",
+                tags: ["AR/VR", "副業", "初心者向け"],
+                views: 0,
+                likes: 0,
+                comments: 0,
+                featured: true
+            },
+            {
                 id: "demo_1",
                 title: "ChatGPT APIを使った自動記事生成システムを構築してみた",
                 summary: "OpenAI APIを使って記事を自動生成するシステムを作成しました。プロンプトエンジニアリングのコツと実装方法を詳しく解説します。",
@@ -43,10 +64,10 @@ class ArticlesLoader {
                 publish_date: "2024-08-30 15:30",
                 category: "プログラミング",
                 tags: ["ChatGPT", "Python", "API"],
-                views: 1234,
-                likes: 124,
-                comments: 23,
-                featured: true
+                views: 0,
+                likes: 0,
+                comments: 0,
+                featured: false
             },
             {
                 id: "demo_2",
@@ -58,9 +79,9 @@ class ArticlesLoader {
                 publish_date: "2024-08-30 10:00",
                 category: "副業",
                 tags: ["ブログ", "副業", "収益化"],
-                views: 956,
-                likes: 89,
-                comments: 15,
+                views: 0,
+                likes: 0,
+                comments: 0,
                 featured: false
             },
             {
@@ -73,9 +94,9 @@ class ArticlesLoader {
                 publish_date: "2024-08-29 14:30",
                 category: "ビジネス",
                 tags: ["GitHub", "AI", "収益化"],
-                views: 2100,
-                likes: 156,
-                comments: 34,
+                views: 0,
+                likes: 0,
+                comments: 0,
                 featured: false
             }
         ];
@@ -187,16 +208,16 @@ class ArticlesLoader {
                         </div>
                         <div class="article-stats">
                             <span class="stat">
-                                <i class="fas fa-heart"></i>
-                                ${article.likes}
+                                <i class="far fa-heart"></i>
+                                <span class="count">${article.likes || 0}</span>
                             </span>
                             <span class="stat">
                                 <i class="fas fa-comment"></i>
-                                ${article.comments}
+                                <span class="count">${article.comments || 0}</span>
                             </span>
                             <span class="stat">
                                 <i class="fas fa-eye"></i>
-                                ${this.formatNumber(article.views)}
+                                <span class="count">${article.views > 0 ? this.formatNumber(article.views) : '-'}</span>
                             </span>
                         </div>
                     </div>
