@@ -696,6 +696,60 @@ body {
     color: #00d4aa;
 }
 
+/* 空状態表示 */
+.empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    color: #999;
+}
+
+.empty-state h3 {
+    margin-bottom: 10px;
+    color: #666;
+    font-size: 1.3em;
+}
+
+.empty-state p {
+    margin: 0;
+    font-size: 1em;
+}
+
+/* エラー状態表示 */
+.error-state {
+    text-align: center;
+    padding: 60px 20px;
+    color: #666;
+}
+
+.error-state h2 {
+    margin: 20px 0 10px;
+    color: #333;
+    font-size: 1.5em;
+}
+
+.error-state p {
+    margin-bottom: 30px;
+    font-size: 1.1em;
+}
+
+.back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #00d4aa;
+    color: white;
+    text-decoration: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-weight: 500;
+    transition: background 0.3s ease;
+}
+
+.back-btn:hover {
+    background: #00c298;
+    color: white;
+}
+
 /* フッター */
 .footer {
     background: #2c3e50;

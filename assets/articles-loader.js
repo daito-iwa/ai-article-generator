@@ -37,7 +37,7 @@ class ArticlesLoader {
     }
 
     getDemoArticles() {
-        // デモ用の記事データ
+        // 実際のarticles.jsonと同じデータのみ返す（フォールバック用）
         return [
             {
                 id: "auto_1756565303",
@@ -53,51 +53,6 @@ class ArticlesLoader {
                 likes: 0,
                 comments: 0,
                 featured: true
-            },
-            {
-                id: "demo_1",
-                title: "ChatGPT APIを使った自動記事生成システムを構築してみた",
-                summary: "OpenAI APIを使って記事を自動生成するシステムを作成しました。プロンプトエンジニアリングのコツと実装方法を詳しく解説します。",
-                author: "T.K",
-                author_role: "AIエンジニア",
-                author_avatar: "TK",
-                publish_date: "2024-08-30 15:30",
-                category: "プログラミング",
-                tags: ["ChatGPT", "Python", "API"],
-                views: 0,
-                likes: 0,
-                comments: 0,
-                featured: false
-            },
-            {
-                id: "demo_2",
-                title: "副業ブログで月10万円達成した完全ロードマップ",
-                summary: "ブログ未経験から始めて6ヶ月で月10万円の収益化に成功。実際の収益推移と具体的な施策を全て公開します。",
-                author: "M.Y",
-                author_role: "ライフスタイル",
-                author_avatar: "MY",
-                publish_date: "2024-08-30 10:00",
-                category: "副業",
-                tags: ["ブログ", "副業", "収益化"],
-                views: 0,
-                likes: 0,
-                comments: 0,
-                featured: false
-            },
-            {
-                id: "demo_3",
-                title: "GitHub Pages + AI自動化で作る無料収益サイト",
-                summary: "完全無料でプロ級のWebサイトを構築し、AI自動化で収益化する方法を解説。初期費用0円から月収50万円を目指すテクニック。",
-                author: "S.J",
-                author_role: "ビジネス",
-                author_avatar: "SJ",
-                publish_date: "2024-08-29 14:30",
-                category: "ビジネス",
-                tags: ["GitHub", "AI", "収益化"],
-                views: 0,
-                likes: 0,
-                comments: 0,
-                featured: false
             }
         ];
     }
@@ -106,6 +61,9 @@ class ArticlesLoader {
         // トレンド記事を更新
         this.updateTrendingArticles();
         
+        // ランキングリストを更新
+        this.updateRankingList();
+        
         // その他のタブも更新
         this.updateLatestArticles();
         this.updatePopularArticles();
@@ -113,66 +71,111 @@ class ArticlesLoader {
     }
 
     updateTrendingArticles() {
-        const container = document.querySelector('#trending .articles-list');
+        const container = document.getElementById('trending');
         if (!container) return;
 
-        // 最初の3記事をトレンドとして表示
-        const trendingArticles = this.articlesData.slice(0, 3);
-        const html = trendingArticles.map(article => this.createArticleCard(article)).join('');
-        container.innerHTML = html;
+        if (this.articlesData.length === 0) {
+            container.innerHTML = `
+                <div class="empty-state">
+                    <i class="fas fa-newspaper" style="font-size: 3em; color: #ccc; margin-bottom: 20px;"></i>
+                    <h3>記事がまだありません</h3>
+                    <p>新しい記事をお待ちください。</p>
+                </div>
+            `;
+        } else {
+            // 実在する記事を表示
+            const html = this.articlesData.map(article => this.createArticleCard(article)).join('');
+            container.innerHTML = `<div class="articles-list">${html}</div>`;
+        }
+    }
+
+    updateRankingList() {
+        const container = document.getElementById('ranking-list');
+        if (!container) return;
+
+        if (this.articlesData.length === 0) {
+            container.innerHTML = `
+                <div class="empty-state">
+                    <p>記事がありません</p>
+                </div>
+            `;
+        } else {
+            const html = this.articlesData.map((article, index) => `
+                <a href="./article.html?id=${article.id}" class="ranking-item">
+                    <span class="rank">${index + 1}</span>
+                    <div class="rank-content">
+                        <h4>${article.title}</h4>
+                        <span class="rank-stats">新着</span>
+                    </div>
+                </a>
+            `).join('');
+            container.innerHTML = html;
+        }
     }
 
     updateLatestArticles() {
-        // 新着記事の更新（app.jsの既存機能を上書きしないように注意）
-        const container = document.querySelector('#latest .articles-list');
-        if (!container || container.innerHTML.includes('loading')) return;
+        const container = document.getElementById('latest');
+        if (!container) return;
         
-        // 最新の記事を時系列で表示
-        const latestArticles = [...this.articlesData]
-            .sort((a, b) => new Date(b.publish_date) - new Date(a.publish_date))
-            .slice(0, 6);
-            
-        if (window.techNoteApp && window.techNoteApp.renderArticles) {
-            window.techNoteApp.renderArticles(
-                document.getElementById('latest'),
-                latestArticles
-            );
+        if (this.articlesData.length === 0) {
+            container.innerHTML = `
+                <div class="empty-state">
+                    <i class="fas fa-clock" style="font-size: 3em; color: #ccc; margin-bottom: 20px;"></i>
+                    <h3>新着記事がありません</h3>
+                    <p>新しい記事の投稿をお待ちください。</p>
+                </div>
+            `;
+        } else {
+            // 最新の記事を時系列で表示
+            const latestArticles = [...this.articlesData]
+                .sort((a, b) => new Date(b.publish_date) - new Date(a.publish_date));
+            const html = latestArticles.map(article => this.createArticleCard(article)).join('');
+            container.innerHTML = `<div class="articles-list">${html}</div>`;
         }
     }
 
     updatePopularArticles() {
-        // 人気記事の更新
-        const container = document.querySelector('#popular .articles-list');
-        if (!container || container.innerHTML.includes('loading')) return;
+        const container = document.getElementById('popular');
+        if (!container) return;
         
-        // ビュー数でソート
-        const popularArticles = [...this.articlesData]
-            .sort((a, b) => b.views - a.views)
-            .slice(0, 6);
-            
-        if (window.techNoteApp && window.techNoteApp.renderArticles) {
-            window.techNoteApp.renderArticles(
-                document.getElementById('popular'),
-                popularArticles
-            );
+        if (this.articlesData.length === 0) {
+            container.innerHTML = `
+                <div class="empty-state">
+                    <i class="fas fa-star" style="font-size: 3em; color: #ccc; margin-bottom: 20px;"></i>
+                    <h3>人気記事がありません</h3>
+                    <p>記事が増えるまでお待ちください。</p>
+                </div>
+            `;
+        } else {
+            // ビュー数でソート（現在は全て0なので投稿日順）
+            const popularArticles = [...this.articlesData]
+                .sort((a, b) => new Date(b.publish_date) - new Date(a.publish_date));
+            const html = popularArticles.map(article => this.createArticleCard(article)).join('');
+            container.innerHTML = `<div class="articles-list">${html}</div>`;
         }
     }
 
     updateAIArticles() {
-        // AI生成記事の更新
-        const container = document.querySelector('#ai-generated .articles-list');
-        if (!container || container.innerHTML.includes('loading')) return;
+        const container = document.getElementById('ai-generated');
+        if (!container) return;
         
         // AIが生成した記事のみフィルタ
-        const aiArticles = this.articlesData
-            .filter(article => article.id.startsWith('auto_'))
-            .slice(0, 6);
-            
-        if (window.techNoteApp && window.techNoteApp.renderArticles) {
-            window.techNoteApp.renderArticles(
-                document.getElementById('ai-generated'),
-                aiArticles.map(article => ({ ...article, isAI: true }))
-            );
+        const aiArticles = this.articlesData.filter(article => article.id.startsWith('auto_'));
+        
+        if (aiArticles.length === 0) {
+            container.innerHTML = `
+                <div class="empty-state">
+                    <i class="fas fa-robot" style="font-size: 3em; color: #ccc; margin-bottom: 20px;"></i>
+                    <h3>AI記事がありません</h3>
+                    <p>AI自動生成機能は準備中です。</p>
+                </div>
+            `;
+        } else {
+            const html = aiArticles.map(article => {
+                const cardHtml = this.createArticleCard(article);
+                return cardHtml.replace('<span class="author-role">', '<span class="ai-badge">AI</span><span class="author-role">');
+            }).join('');
+            container.innerHTML = `<div class="articles-list">${html}</div>`;
         }
     }
 

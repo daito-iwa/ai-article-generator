@@ -5,13 +5,153 @@ class ArticlePageApp {
         this.init();
     }
 
-    init() {
+    async init() {
+        // 記事データを読み込み
+        await this.loadArticleData();
+        
         this.setupEventListeners();
         this.setupCodeCopyButtons();
         this.setupTableOfContents();
         this.setupCommentSystem();
         this.setupArticleActions();
         this.loadLikedStatus();
+    }
+
+    async loadArticleData() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const articleId = urlParams.get('id');
+        
+        if (!articleId) {
+            this.showError('記事IDが指定されていません。');
+            return;
+        }
+
+        try {
+            // articles.jsonからデータを読み込み
+            const response = await fetch('./data/articles.json');
+            if (!response.ok) {
+                throw new Error('記事データの読み込みに失敗しました');
+            }
+            
+            const articlesData = await response.json();
+            const article = articlesData.find(a => a.id === articleId);
+            
+            if (!article) {
+                this.showError('指定された記事が見つかりません。');
+                return;
+            }
+            
+            this.renderArticle(article);
+            
+        } catch (error) {
+            console.error('記事読み込みエラー:', error);
+            this.showError('記事の読み込みに失敗しました。');
+        }
+    }
+
+    renderArticle(article) {
+        // タイトルとメタデータを更新
+        document.title = `${article.title} - TechNote`;
+        document.getElementById('article-title').textContent = article.title;
+        document.getElementById('article-description').setAttribute('content', article.summary);
+
+        // 記事コンテンツを更新
+        const articleContainer = document.querySelector('.article-container');
+        if (articleContainer) {
+            articleContainer.innerHTML = `
+                <article class="article">
+                    <header class="article-header">
+                        <div class="article-category">
+                            <span class="category-tag">${article.category}</span>
+                        </div>
+                        <h1 class="article-title">${article.title}</h1>
+                        <div class="article-meta">
+                            <div class="author-info">
+                                <img src="https://via.placeholder.com/48x48?text=${article.author_avatar}" alt="${article.author}" class="author-avatar">
+                                <div class="author-details">
+                                    <span class="author-name">${article.author}</span>
+                                    <span class="author-role">${article.author_role}</span>
+                                    <time class="publish-date">${this.formatDate(article.publish_date)}</time>
+                                </div>
+                            </div>
+                            <div class="article-stats">
+                                <span class="stat">
+                                    <i class="fas fa-eye"></i>
+                                    ${article.views || 0}
+                                </span>
+                                <span class="stat" data-article-id="${article.id}">
+                                    <i class="far fa-heart"></i>
+                                    <span class="like-count">${article.likes || 0}</span>
+                                </span>
+                            </div>
+                        </div>
+                    </header>
+
+                    <div class="article-content">
+                        ${this.convertMarkdownToHTML(article.content)}
+                    </div>
+
+                    <footer class="article-footer">
+                        <div class="article-tags">
+                            ${article.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
+                        </div>
+                        <div class="article-actions">
+                            <button class="action-btn like-btn" data-article-id="${article.id}">
+                                <i class="far fa-heart"></i>
+                                いいね
+                            </button>
+                            <button class="action-btn share-btn" onclick="navigator.share ? navigator.share({title: '${article.title}', url: window.location.href}) : alert('シェア機能はサポートされていません')">
+                                <i class="fas fa-share"></i>
+                                シェア
+                            </button>
+                        </div>
+                    </footer>
+                </article>
+            `;
+        }
+    }
+
+    showError(message) {
+        const articleContainer = document.querySelector('.article-container');
+        if (articleContainer) {
+            articleContainer.innerHTML = `
+                <div class="error-state">
+                    <i class="fas fa-exclamation-triangle" style="font-size: 3em; color: #ff6b6b; margin-bottom: 20px;"></i>
+                    <h2>エラー</h2>
+                    <p>${message}</p>
+                    <a href="./index.html" class="back-btn">
+                        <i class="fas fa-arrow-left"></i>
+                        記事一覧に戻る
+                    </a>
+                </div>
+            `;
+        }
+    }
+
+    convertMarkdownToHTML(markdown) {
+        // 簡単なMarkdown変換（本格的な変換は外部ライブラリが必要）
+        return markdown
+            .replace(/^## (.+)$/gm, '<h2>$1</h2>')
+            .replace(/^### (.+)$/gm, '<h3>$1</h3>')
+            .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+            .replace(/\*(.+?)\*/g, '<em>$1</em>')
+            .replace(/^- (.+)$/gm, '<li>$1</li>')
+            .replace(/(<li>.*<\/li>)/s, '<ul>$1</ul>')
+            .replace(/\n\n/g, '</p><p>')
+            .replace(/^(.+)$/gm, '<p>$1</p>')
+            .replace(/<p><h/g, '<h')
+            .replace(/<\/h([1-6])><\/p>/g, '</h$1>')
+            .replace(/<p><ul>/g, '<ul>')
+            .replace(/<\/ul><\/p>/g, '</ul>');
+    }
+
+    formatDate(dateString) {
+        const date = new Date(dateString);
+        return date.toLocaleDateString('ja-JP', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        });
     }
 
     setupEventListeners() {

@@ -83,132 +83,11 @@
 
                     <!-- 記事リスト -->
                     <div class="articles-container">
-                        <!-- トレンド記事 -->
+                        <!-- トレンド記事 (動的読み込み) -->
                         <div id="trending" class="tab-content active">
-                            <div class="articles-list">
-                                <article class="article-card featured">
-                                    <div class="article-image">
-                                        <img src="https://via.placeholder.com/300x200?text=AI+Technology" alt="AI技術">
-                                        <span class="article-badge trending">トレンド</span>
-                                    </div>
-                                    <div class="article-content">
-                                        <div class="article-meta">
-                                            <div class="author-info">
-                                                <img src="https://via.placeholder.com/32x32?text=TK" alt="T.K" class="author-avatar">
-                                                <span class="author-name">T.K</span>
-                                                <span class="author-role">AIエンジニア</span>
-                                            </div>
-                                            <span class="publish-date">3時間前</span>
-                                        </div>
-                                        <h3 class="article-title">
-                                            <a href="./article.html?id=1">ChatGPT APIを使った自動記事生成システムを構築してみた</a>
-                                        </h3>
-                                        <p class="article-excerpt">
-                                            OpenAI APIを使って記事を自動生成するシステムを作成しました。プロンプトエンジニアリングのコツと実装方法を詳しく解説します...
-                                        </p>
-                                        <div class="article-footer">
-                                            <div class="article-tags">
-                                                <span class="tag">ChatGPT</span>
-                                                <span class="tag">Python</span>
-                                                <span class="tag">API</span>
-                                            </div>
-                                            <div class="article-stats">
-                                                <span class="stat" data-article-id="1">
-                                                    <i class="far fa-heart"></i>
-                                                    <span class="count">0</span>
-                                                </span>
-                                                <span class="stat">
-                                                    <i class="fas fa-comment"></i>
-                                                    <span class="count">0</span>
-                                                </span>
-                                                <span class="stat">
-                                                    <i class="fas fa-eye"></i>
-                                                    <span class="count">新着</span>
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </article>
-
-                                <article class="article-card">
-                                    <div class="article-content">
-                                        <div class="article-meta">
-                                            <div class="author-info">
-                                                <img src="https://via.placeholder.com/32x32?text=MY" alt="M.Y" class="author-avatar">
-                                                <span class="author-name">M.Y</span>
-                                                <span class="author-role">ライフスタイル</span>
-                                            </div>
-                                            <span class="publish-date">5時間前</span>
-                                        </div>
-                                        <h3 class="article-title">
-                                            <a href="./article.html?id=2">副業ブログで月10万円達成した完全ロードマップ</a>
-                                        </h3>
-                                        <p class="article-excerpt">
-                                            ブログ未経験から始めて6ヶ月で月10万円の収益化に成功。実際の収益推移と具体的な施策を全て公開します...
-                                        </p>
-                                        <div class="article-footer">
-                                            <div class="article-tags">
-                                                <span class="tag">ブログ</span>
-                                                <span class="tag">副業</span>
-                                                <span class="tag">収益化</span>
-                                            </div>
-                                            <div class="article-stats">
-                                                <span class="stat" data-article-id="2">
-                                                    <i class="far fa-heart"></i>
-                                                    <span class="count">0</span>
-                                                </span>
-                                                <span class="stat">
-                                                    <i class="fas fa-comment"></i>
-                                                    <span class="count">0</span>
-                                                </span>
-                                                <span class="stat">
-                                                    <i class="fas fa-eye"></i>
-                                                    <span class="count">新着</span>
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </article>
-
-                                <article class="article-card">
-                                    <div class="article-content">
-                                        <div class="article-meta">
-                                            <div class="author-info">
-                                                <img src="https://via.placeholder.com/32x32?text=SJ" alt="S.J" class="author-avatar">
-                                                <span class="author-name">S.J</span>
-                                                <span class="author-role">ビジネス</span>
-                                            </div>
-                                            <span class="publish-date">1日前</span>
-                                        </div>
-                                        <h3 class="article-title">
-                                            <a href="./article.html?id=3">GitHub Pages + AI自動化で作る無料収益サイト</a>
-                                        </h3>
-                                        <p class="article-excerpt">
-                                            完全無料でプロ級のWebサイトを構築し、AI自動化で収益化する方法を解説。初期費用0円から月収50万円を目指すテクニック...
-                                        </p>
-                                        <div class="article-footer">
-                                            <div class="article-tags">
-                                                <span class="tag">GitHub</span>
-                                                <span class="tag">AI</span>
-                                                <span class="tag">収益化</span>
-                                            </div>
-                                            <div class="article-stats">
-                                                <span class="stat" data-article-id="3">
-                                                    <i class="far fa-heart"></i>
-                                                    <span class="count">0</span>
-                                                </span>
-                                                <span class="stat">
-                                                    <i class="fas fa-comment"></i>
-                                                    <span class="count">0</span>
-                                                </span>
-                                                <span class="stat">
-                                                    <i class="fas fa-eye"></i>
-                                                    <span class="count">新着</span>
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </article>
+                            <div class="loading">
+                                <i class="fas fa-spinner fa-spin"></i>
+                                記事を読み込み中...
                             </div>
                         </div>
 
@@ -287,29 +166,13 @@
 
                     <!-- 人気記事ランキング -->
                     <div class="widget">
-                        <h3>今週の人気記事</h3>
-                        <div class="ranking-list">
-                            <a href="./article.html?id=auto_1756565303" class="ranking-item">
-                                <span class="rank">1</span>
-                                <div class="rank-content">
-                                    <h4>AR/VRの基礎知識と実践方法</h4>
-                                    <span class="rank-stats">新着</span>
-                                </div>
-                            </a>
-                            <a href="./article.html?id=demo_1" class="ranking-item">
-                                <span class="rank">2</span>
-                                <div class="rank-content">
-                                    <h4>ChatGPT APIで記事生成システム構築</h4>
-                                    <span class="rank-stats">投稿済み</span>
-                                </div>
-                            </a>
-                            <a href="./article.html?id=demo_2" class="ranking-item">
-                                <span class="rank">3</span>
-                                <div class="rank-content">
-                                    <h4>副業ブログで月10万円のロードマップ</h4>
-                                    <span class="rank-stats">投稿済み</span>
-                                </div>
-                            </a>
+                        <h3>記事一覧</h3>
+                        <div class="ranking-list" id="ranking-list">
+                            <!-- 動的に読み込み -->
+                            <div class="loading">
+                                <i class="fas fa-spinner fa-spin"></i>
+                                読み込み中...
+                            </div>
                         </div>
                     </div>
 
