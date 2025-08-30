@@ -235,19 +235,15 @@
                         </div>
                     </div>
 
-                    <!-- ページネーション -->
-                    <div class="pagination">
+                    <!-- ページネーション (記事数に応じて動的表示) -->
+                    <div class="pagination" id="pagination-container" style="display: none;">
                         <button class="page-btn" disabled>
                             <i class="fas fa-chevron-left"></i>
                         </button>
                         <span class="page-numbers">
                             <span class="page-number active">1</span>
-                            <span class="page-number">2</span>
-                            <span class="page-number">3</span>
-                            <span class="page-dots">...</span>
-                            <span class="page-number">15</span>
                         </span>
-                        <button class="page-btn">
+                        <button class="page-btn" disabled>
                             <i class="fas fa-chevron-right"></i>
                         </button>
                     </div>
