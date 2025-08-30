@@ -809,6 +809,15 @@ body {
         border-radius: 0;
     }
     
+    /* サイドバーをメインコンテンツの下に移動 */
+    .sidebar {
+        order: 2;
+    }
+    
+    .main-content {
+        order: 1;
+    }
+    
     .footer-content {
         grid-template-columns: repeat(2, 1fr);
         gap: 30px;
@@ -832,5 +841,18 @@ body {
     
     .stat-number {
         font-size: 2em;
+    }
+    
+    .content-grid {
+        display: block;
+    }
+    
+    .main-content {
+        width: 100%;
+        margin-bottom: 30px;
+    }
+    
+    .sidebar {
+        width: 100%;
     }
 }
