@@ -26,10 +26,10 @@
                 </h1>
                 
                 <nav class="nav">
-                    <a href="#trending" class="nav-link">トレンド</a>
-                    <a href="#latest" class="nav-link">新着</a>
-                    <a href="#categories" class="nav-link">カテゴリ</a>
-                    <a href="./post.html" class="nav-link post-btn">
+                    <a href="#trending" class="nav-link" onclick="switchToTab('trending')">トレンド</a>
+                    <a href="#latest" class="nav-link" onclick="switchToTab('latest')">新着</a>
+                    <a href="#categories" class="nav-link" onclick="document.querySelector('.categories').scrollIntoView({behavior: 'smooth'})">カテゴリ</a>
+                    <a href="./post.html" class="nav-link post-btn" onclick="window.location.href='./post.html'">
                         <i class="fas fa-pen"></i>
                         記事を書く
                     </a>
@@ -37,7 +37,7 @@
                 
                 <div class="search-box">
                     <input type="text" placeholder="記事を検索..." id="search-input">
-                    <button id="search-btn">
+                    <button id="search-btn" onclick="performSearchFromInput()">
                         <i class="fas fa-search"></i>
                     </button>
                 </div>
@@ -113,17 +113,17 @@
                                                 <span class="tag">API</span>
                                             </div>
                                             <div class="article-stats">
-                                                <span class="stat">
-                                                    <i class="fas fa-heart"></i>
-                                                    124
+                                                <span class="stat" data-article-id="1">
+                                                    <i class="far fa-heart"></i>
+                                                    <span class="count">0</span>
                                                 </span>
                                                 <span class="stat">
                                                     <i class="fas fa-comment"></i>
-                                                    23
+                                                    <span class="count">0</span>
                                                 </span>
                                                 <span class="stat">
                                                     <i class="fas fa-eye"></i>
-                                                    1.2k
+                                                    <span class="count">新着</span>
                                                 </span>
                                             </div>
                                         </div>
@@ -153,17 +153,17 @@
                                                 <span class="tag">収益化</span>
                                             </div>
                                             <div class="article-stats">
-                                                <span class="stat">
-                                                    <i class="fas fa-heart"></i>
-                                                    89
+                                                <span class="stat" data-article-id="2">
+                                                    <i class="far fa-heart"></i>
+                                                    <span class="count">0</span>
                                                 </span>
                                                 <span class="stat">
                                                     <i class="fas fa-comment"></i>
-                                                    15
+                                                    <span class="count">0</span>
                                                 </span>
                                                 <span class="stat">
                                                     <i class="fas fa-eye"></i>
-                                                    956
+                                                    <span class="count">新着</span>
                                                 </span>
                                             </div>
                                         </div>
@@ -193,17 +193,17 @@
                                                 <span class="tag">収益化</span>
                                             </div>
                                             <div class="article-stats">
-                                                <span class="stat">
-                                                    <i class="fas fa-heart"></i>
-                                                    156
+                                                <span class="stat" data-article-id="3">
+                                                    <i class="far fa-heart"></i>
+                                                    <span class="count">0</span>
                                                 </span>
                                                 <span class="stat">
                                                     <i class="fas fa-comment"></i>
-                                                    34
+                                                    <span class="count">0</span>
                                                 </span>
                                                 <span class="stat">
                                                     <i class="fas fa-eye"></i>
-                                                    2.1k
+                                                    <span class="count">新着</span>
                                                 </span>
                                             </div>
                                         </div>
@@ -259,7 +259,7 @@
                     <div class="widget cta-widget">
                         <h3>記事を投稿しよう</h3>
                         <p>あなたの知識と経験をシェアしませんか？</p>
-                        <a href="./post.html" class="cta-btn">
+                        <a href="./post.html" class="cta-btn" onclick="window.location.href='./post.html'">
                             <i class="fas fa-pen"></i>
                             今すぐ書く
                         </a>
@@ -278,14 +278,14 @@
                     <div class="widget">
                         <h3>トレンドタグ</h3>
                         <div class="trending-tags">
-                            <a href="#" class="trend-tag hot">ChatGPT</a>
-                            <a href="#" class="trend-tag">Python</a>
-                            <a href="#" class="trend-tag">React</a>
-                            <a href="#" class="trend-tag hot">AI</a>
-                            <a href="#" class="trend-tag">副業</a>
-                            <a href="#" class="trend-tag">投資</a>
-                            <a href="#" class="trend-tag hot">GitHub</a>
-                            <a href="#" class="trend-tag">Docker</a>
+                            <a href="#" onclick="searchByTag('ChatGPT')" class="trend-tag hot">ChatGPT</a>
+                            <a href="#" onclick="searchByTag('Python')" class="trend-tag">Python</a>
+                            <a href="#" onclick="searchByTag('React')" class="trend-tag">React</a>
+                            <a href="#" onclick="searchByTag('AI')" class="trend-tag hot">AI</a>
+                            <a href="#" onclick="searchByTag('副業')" class="trend-tag">副業</a>
+                            <a href="#" onclick="searchByTag('投資')" class="trend-tag">投資</a>
+                            <a href="#" onclick="searchByTag('GitHub')" class="trend-tag hot">GitHub</a>
+                            <a href="#" onclick="searchByTag('Docker')" class="trend-tag">Docker</a>
                         </div>
                     </div>
 
@@ -293,25 +293,25 @@
                     <div class="widget">
                         <h3>今週の人気記事</h3>
                         <div class="ranking-list">
-                            <a href="#" class="ranking-item">
+                            <a href="./article.html?id=auto_1756565303" class="ranking-item">
                                 <span class="rank">1</span>
                                 <div class="rank-content">
-                                    <h4>ChatGPT APIで記事生成システム構築</h4>
-                                    <span class="rank-stats">1.2k views</span>
+                                    <h4>AR/VRの基礎知識と実践方法</h4>
+                                    <span class="rank-stats">新着</span>
                                 </div>
                             </a>
-                            <a href="#" class="ranking-item">
+                            <a href="./article.html?id=demo_1" class="ranking-item">
                                 <span class="rank">2</span>
                                 <div class="rank-content">
-                                    <h4>副業ブログで月10万円のロードマップ</h4>
-                                    <span class="rank-stats">956 views</span>
+                                    <h4>ChatGPT APIで記事生成システム構築</h4>
+                                    <span class="rank-stats">投稿済み</span>
                                 </div>
                             </a>
-                            <a href="#" class="ranking-item">
+                            <a href="./article.html?id=demo_2" class="ranking-item">
                                 <span class="rank">3</span>
                                 <div class="rank-content">
-                                    <h4>GitHub Pages無料収益サイト構築法</h4>
-                                    <span class="rank-stats">823 views</span>
+                                    <h4>副業ブログで月10万円のロードマップ</h4>
+                                    <span class="rank-stats">投稿済み</span>
                                 </div>
                             </a>
                         </div>
@@ -321,31 +321,31 @@
                     <div class="widget">
                         <h3>カテゴリ</h3>
                         <div class="categories">
-                            <a href="#" class="category-item">
+                            <div onclick="filterByCategory('programming')" class="category-item">
                                 <i class="fas fa-code"></i>
                                 プログラミング
-                                <span class="count">342</span>
-                            </a>
-                            <a href="#" class="category-item">
+                                <span class="count" id="count-programming">-</span>
+                            </div>
+                            <div onclick="filterByCategory('ai')" class="category-item">
                                 <i class="fas fa-robot"></i>
                                 AI・機械学習
-                                <span class="count">189</span>
-                            </a>
-                            <a href="#" class="category-item">
+                                <span class="count" id="count-ai">-</span>
+                            </div>
+                            <div onclick="filterByCategory('business')" class="category-item">
                                 <i class="fas fa-briefcase"></i>
                                 ビジネス
-                                <span class="count">156</span>
-                            </a>
-                            <a href="#" class="category-item">
+                                <span class="count" id="count-business">-</span>
+                            </div>
+                            <div onclick="filterByCategory('finance')" class="category-item">
                                 <i class="fas fa-chart-line"></i>
                                 投資・副業
-                                <span class="count">98</span>
-                            </a>
-                            <a href="#" class="category-item">
+                                <span class="count" id="count-finance">-</span>
+                            </div>
+                            <div onclick="filterByCategory('design')" class="category-item">
                                 <i class="fas fa-palette"></i>
                                 デザイン
-                                <span class="count">73</span>
-                            </a>
+                                <span class="count" id="count-design">-</span>
+                            </div>
                         </div>
                     </div>
                 </aside>
@@ -361,29 +361,29 @@
                     <h4>TechNote</h4>
                     <p>知識を共有し、学び合うコミュニティプラットフォーム</p>
                     <div class="social-links">
-                        <a href="#"><i class="fab fa-twitter"></i></a>
-                        <a href="#"><i class="fab fa-github"></i></a>
-                        <a href="#"><i class="fab fa-discord"></i></a>
+                        <a href="#" onclick="showModal('準備中', 'SNS機能は準備中です。')" title="Twitter"><i class="fab fa-twitter"></i></a>
+                        <a href="#" onclick="showModal('準備中', 'SNS機能は準備中です。')" title="GitHub"><i class="fab fa-github"></i></a>
+                        <a href="#" onclick="showModal('準備中', 'SNS機能は準備中です。')" title="Discord"><i class="fab fa-discord"></i></a>
                     </div>
                 </div>
                 
                 <div class="footer-section">
                     <h4>コンテンツ</h4>
                     <ul>
-                        <li><a href="#">トレンド記事</a></li>
-                        <li><a href="#">新着記事</a></li>
-                        <li><a href="#">人気記事</a></li>
-                        <li><a href="#">AI記事</a></li>
+                        <li><a href="#" onclick="switchToTab('trending')">トレンド記事</a></li>
+                        <li><a href="#" onclick="switchToTab('latest')">新着記事</a></li>
+                        <li><a href="#" onclick="switchToTab('popular')">人気記事</a></li>
+                        <li><a href="#" onclick="switchToTab('ai-generated')">AI記事</a></li>
                     </ul>
                 </div>
                 
                 <div class="footer-section">
                     <h4>コミュニティ</h4>
                     <ul>
-                        <li><a href="./post.html">記事を書く</a></li>
-                        <li><a href="#">投稿ガイドライン</a></li>
-                        <li><a href="#">利用規約</a></li>
-                        <li><a href="#">プライバシーポリシー</a></li>
+                        <li><a href="./post.html" onclick="window.location.href='./post.html'">記事を書く</a></li>
+                        <li><a href="#" onclick="showModal('ガイドライン', 'このサイトは知識共有を目的としたプラットフォームです。誰でも記事を投稿できます。')">投稿ガイドライン</a></li>
+                        <li><a href="#" onclick="showModal('利用規約', 'このサイトの利用に関する規約です。AI自動生成記事とユーザー投稿記事を区別して表示しています。')">利用規約</a></li>
+                        <li><a href="#" onclick="showModal('プライバシーポリシー', '個人情報は記事投稿時のペンネーム以外は収集していません。すべて匿名で運営されています。')">プライバシーポリシー</a></li>
                     </ul>
                 </div>
                 
@@ -395,14 +395,80 @@
             </div>
             
             <div class="footer-bottom">
-                <p>&copy; 2024 TechNote. Powered by GitHub Pages + AI</p>
+                <p onclick="showModal('TechNote について', '完全無料のNote風記事プラットフォーム。AI自動記事生成とユーザー投稿を組み合わせ、GitHub Pagesで運営されています。すべて匿名で、プライバシーを保護しながら知識を共有できます。')" style="cursor: pointer;">&copy; 2024 TechNote. Powered by GitHub Pages + AI</p>
             </div>
         </div>
     </footer>
 
+    <!-- Modal -->
+    <div id="modal" class="modal" style="display:none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modal-title">タイトル</h2>
+                <span class="modal-close" onclick="closeModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <p id="modal-text">内容</p>
+            </div>
+        </div>
+    </div>
+
     <!-- JavaScript -->
     <script src="assets/app.js"></script>
     <script src="assets/articles-loader.js"></script>
+    
+    <script>
+        // フッターリンク用の関数
+        function switchToTab(tabId) {
+            if (window.techNoteApp) {
+                window.techNoteApp.switchTab(tabId);
+            }
+        }
+
+        function searchByTag(tag) {
+            const searchInput = document.getElementById('search-input');
+            if (searchInput) {
+                searchInput.value = tag;
+                if (window.techNoteApp) {
+                    window.techNoteApp.performSearch(tag);
+                }
+            }
+        }
+
+        function filterByCategory(category) {
+            console.log('カテゴリでフィルター:', category);
+            alert(`"${category}"カテゴリの記事を表示します（実装予定）`);
+        }
+
+        function showModal(title, text) {
+            document.getElementById('modal-title').textContent = title;
+            document.getElementById('modal-text').textContent = text;
+            document.getElementById('modal').style.display = 'block';
+        }
+
+        function closeModal() {
+            document.getElementById('modal').style.display = 'none';
+        }
+
+        function performSearchFromInput() {
+            const searchInput = document.getElementById('search-input');
+            if (searchInput && searchInput.value.trim()) {
+                if (window.techNoteApp) {
+                    window.techNoteApp.performSearch(searchInput.value.trim());
+                } else {
+                    alert(`"${searchInput.value.trim()}" の検索結果を表示します（実装予定）`);
+                }
+            }
+        }
+
+        // モーダル外クリックで閉じる
+        window.onclick = function(event) {
+            const modal = document.getElementById('modal');
+            if (event.target === modal) {
+                modal.style.display = 'none';
+            }
+        }
+    </script>
     
     <!-- AdSense自動広告 -->
     <script>
