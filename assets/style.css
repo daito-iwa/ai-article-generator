@@ -1,0 +1,763 @@
+/* TechNote - Note風投稿サイトのメインCSS */
+
+/* リセット・ベース設定 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+    line-height: 1.6;
+    color: #333;
+    background: #fafafa;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* ヘッダー */
+.header {
+    background: #fff;
+    border-bottom: 1px solid #e6e6e6;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.04);
+}
+
+.header-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px 0;
+}
+
+.logo a {
+    text-decoration: none;
+    color: #333;
+    font-size: 1.8em;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.logo i {
+    color: #00d4aa;
+}
+
+.nav {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
+
+.nav-link {
+    text-decoration: none;
+    color: #666;
+    font-weight: 500;
+    transition: color 0.3s ease;
+    padding: 8px 0;
+}
+
+.nav-link:hover {
+    color: #00d4aa;
+}
+
+.post-btn {
+    background: #00d4aa;
+    color: white !important;
+    padding: 10px 20px;
+    border-radius: 25px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.9em;
+}
+
+.post-btn:hover {
+    background: #00c298;
+}
+
+.search-box {
+    display: flex;
+    align-items: center;
+    background: #f5f5f5;
+    border-radius: 25px;
+    padding: 8px 15px;
+    min-width: 250px;
+}
+
+.search-box input {
+    background: none;
+    border: none;
+    outline: none;
+    flex: 1;
+    padding: 4px 8px;
+    font-size: 0.9em;
+}
+
+.search-box button {
+    background: none;
+    border: none;
+    color: #666;
+    cursor: pointer;
+    padding: 4px;
+}
+
+/* メインコンテンツ */
+.main {
+    padding: 40px 0;
+}
+
+/* ヒーローセクション */
+.hero {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 60px 0;
+    margin-bottom: 40px;
+    border-radius: 20px;
+    text-align: center;
+}
+
+.hero h2 {
+    font-size: 2.5em;
+    margin-bottom: 20px;
+    font-weight: 700;
+}
+
+.hero p {
+    font-size: 1.2em;
+    margin-bottom: 40px;
+    opacity: 0.9;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.hero-stats {
+    display: flex;
+    justify-content: center;
+    gap: 60px;
+}
+
+.stat-item {
+    text-align: center;
+}
+
+.stat-number {
+    display: block;
+    font-size: 2.5em;
+    font-weight: bold;
+    color: #ffd700;
+    margin-bottom: 5px;
+}
+
+.stat-label {
+    font-size: 1em;
+    opacity: 0.8;
+}
+
+/* 広告バナー */
+.ad-banner, .ad-widget {
+    text-align: center;
+    margin: 30px 0;
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    border: 1px solid #e9ecef;
+}
+
+/* コンテンツグリッド */
+.content-grid {
+    display: grid;
+    grid-template-columns: 1fr 300px;
+    gap: 40px;
+}
+
+/* タブナビゲーション */
+.tab-nav {
+    display: flex;
+    background: white;
+    border-radius: 12px;
+    padding: 8px;
+    margin-bottom: 30px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+
+.tab-btn {
+    background: none;
+    border: none;
+    padding: 12px 20px;
+    cursor: pointer;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 500;
+    color: #666;
+    transition: all 0.3s ease;
+    flex: 1;
+    justify-content: center;
+}
+
+.tab-btn:hover {
+    background: #f5f5f5;
+    color: #333;
+}
+
+.tab-btn.active {
+    background: #00d4aa;
+    color: white;
+}
+
+/* タブコンテンツ */
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+/* 記事カード */
+.articles-list {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.article-card {
+    background: white;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.article-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+}
+
+.article-card.featured {
+    border: 2px solid #00d4aa;
+}
+
+.article-image {
+    position: relative;
+    height: 200px;
+    overflow: hidden;
+}
+
+.article-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.article-badge {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: #ff4757;
+    color: white;
+    padding: 4px 12px;
+    border-radius: 15px;
+    font-size: 0.8em;
+    font-weight: 600;
+}
+
+.article-badge.trending {
+    background: #ff6b6b;
+}
+
+.article-content {
+    padding: 25px;
+}
+
+.article-meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 15px;
+}
+
+.author-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.author-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.author-name {
+    font-weight: 600;
+    color: #333;
+}
+
+.author-role {
+    font-size: 0.85em;
+    color: #666;
+    background: #f0f0f0;
+    padding: 2px 8px;
+    border-radius: 10px;
+}
+
+.publish-date {
+    color: #999;
+    font-size: 0.9em;
+}
+
+.article-title {
+    font-size: 1.4em;
+    font-weight: 700;
+    line-height: 1.3;
+    margin-bottom: 15px;
+}
+
+.article-title a {
+    text-decoration: none;
+    color: #333;
+    transition: color 0.3s ease;
+}
+
+.article-title a:hover {
+    color: #00d4aa;
+}
+
+.article-excerpt {
+    color: #666;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+.article-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.article-tags {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.tag {
+    background: #e8f5e9;
+    color: #2e7d32;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 0.8em;
+    font-weight: 500;
+}
+
+.article-stats {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+.stat {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    color: #999;
+    font-size: 0.9em;
+}
+
+.stat i {
+    font-size: 0.8em;
+}
+
+/* ページネーション */
+.pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 40px;
+    gap: 8px;
+}
+
+.page-btn {
+    background: white;
+    border: 1px solid #e0e0e0;
+    padding: 10px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.page-btn:hover:not(:disabled) {
+    background: #00d4aa;
+    color: white;
+    border-color: #00d4aa;
+}
+
+.page-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.page-numbers {
+    display: flex;
+    gap: 4px;
+    margin: 0 12px;
+}
+
+.page-number {
+    padding: 10px 12px;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.page-number:hover {
+    background: #f5f5f5;
+}
+
+.page-number.active {
+    background: #00d4aa;
+    color: white;
+}
+
+.page-dots {
+    padding: 10px 5px;
+    color: #999;
+}
+
+/* サイドバー */
+.sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.widget {
+    background: white;
+    border-radius: 16px;
+    padding: 25px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+.widget h3 {
+    font-size: 1.2em;
+    font-weight: 700;
+    margin-bottom: 20px;
+    color: #333;
+    border-bottom: 2px solid #00d4aa;
+    padding-bottom: 8px;
+}
+
+/* CTA ウィジェット */
+.cta-widget {
+    background: linear-gradient(135deg, #00d4aa, #00c298);
+    color: white;
+    text-align: center;
+}
+
+.cta-widget h3 {
+    color: white;
+    border-bottom: 2px solid rgba(255,255,255,0.2);
+}
+
+.cta-widget p {
+    margin-bottom: 20px;
+    opacity: 0.9;
+}
+
+.cta-btn {
+    background: white;
+    color: #00d4aa;
+    text-decoration: none;
+    padding: 12px 24px;
+    border-radius: 25px;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: transform 0.3s ease;
+}
+
+.cta-btn:hover {
+    transform: translateY(-2px);
+}
+
+/* トレンドタグ */
+.trending-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.trend-tag {
+    background: #f5f5f5;
+    color: #666;
+    text-decoration: none;
+    padding: 8px 15px;
+    border-radius: 20px;
+    font-size: 0.9em;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.trend-tag:hover {
+    background: #00d4aa;
+    color: white;
+}
+
+.trend-tag.hot {
+    background: #ff6b6b;
+    color: white;
+}
+
+.trend-tag.hot:hover {
+    background: #ff5252;
+}
+
+/* ランキング */
+.ranking-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.ranking-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    text-decoration: none;
+    color: #333;
+    padding: 12px;
+    border-radius: 8px;
+    transition: background 0.3s ease;
+}
+
+.ranking-item:hover {
+    background: #f5f5f5;
+}
+
+.rank {
+    width: 24px;
+    height: 24px;
+    background: #00d4aa;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8em;
+    font-weight: bold;
+    flex-shrink: 0;
+}
+
+.rank-content h4 {
+    font-size: 0.9em;
+    font-weight: 600;
+    line-height: 1.3;
+    margin-bottom: 4px;
+}
+
+.rank-stats {
+    font-size: 0.8em;
+    color: #999;
+}
+
+/* カテゴリ */
+.categories {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.category-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+    color: #666;
+    padding: 12px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    justify-content: space-between;
+}
+
+.category-item:hover {
+    background: #f5f5f5;
+    color: #333;
+}
+
+.category-item i {
+    color: #00d4aa;
+}
+
+.count {
+    background: #f0f0f0;
+    color: #666;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-size: 0.8em;
+}
+
+/* ローディング */
+.loading {
+    text-align: center;
+    padding: 60px 20px;
+    color: #999;
+    font-size: 1.1em;
+}
+
+.loading i {
+    margin-right: 10px;
+    color: #00d4aa;
+}
+
+/* フッター */
+.footer {
+    background: #2c3e50;
+    color: white;
+    margin-top: 80px;
+}
+
+.footer-content {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 40px;
+    padding: 60px 0 40px;
+}
+
+.footer-section h4 {
+    font-size: 1.2em;
+    margin-bottom: 20px;
+    color: #00d4aa;
+}
+
+.footer-section ul {
+    list-style: none;
+}
+
+.footer-section li {
+    margin-bottom: 12px;
+}
+
+.footer-section a {
+    color: #bbb;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.footer-section a:hover {
+    color: #00d4aa;
+}
+
+.social-links {
+    display: flex;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.social-links a {
+    width: 40px;
+    height: 40px;
+    background: #34495e;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.3s ease;
+}
+
+.social-links a:hover {
+    background: #00d4aa;
+}
+
+.footer-bottom {
+    border-top: 1px solid #34495e;
+    padding: 25px 0;
+    text-align: center;
+    color: #bbb;
+}
+
+/* レスポンシブ対応 */
+@media (max-width: 768px) {
+    .container {
+        padding: 0 15px;
+    }
+    
+    .header-content {
+        flex-direction: column;
+        gap: 20px;
+    }
+    
+    .nav {
+        gap: 20px;
+    }
+    
+    .search-box {
+        min-width: 200px;
+    }
+    
+    .hero h2 {
+        font-size: 2em;
+    }
+    
+    .hero-stats {
+        flex-direction: column;
+        gap: 30px;
+    }
+    
+    .content-grid {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+    
+    .tab-nav {
+        overflow-x: auto;
+    }
+    
+    .tab-btn {
+        white-space: nowrap;
+        min-width: 120px;
+    }
+    
+    .article-card {
+        margin: 0 -15px;
+        border-radius: 0;
+    }
+    
+    .footer-content {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 30px;
+    }
+}
+
+@media (max-width: 480px) {
+    .footer-content {
+        grid-template-columns: 1fr;
+    }
+    
+    .article-footer {
+        flex-direction: column;
+        gap: 15px;
+        align-items: flex-start;
+    }
+    
+    .hero p {
+        font-size: 1.1em;
+    }
+    
+    .stat-number {
+        font-size: 2em;
+    }
+}

@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="article-title">記事タイトル - TechNote</title>
+    <meta name="description" id="article-description" content="記事の説明文">
+    <link rel="stylesheet" href="assets/style.css">
+    <link rel="stylesheet" href="assets/article.css">
+    
+    <!-- Google AdSense -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXX" crossorigin="anonymous"></script>
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <!-- Prism.js for syntax highlighting -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- ヘッダー -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <h1 class="logo">
+                    <a href="index.html">
+                        <i class="fas fa-code"></i>
+                        TechNote
+                    </a>
+                </h1>
+                
+                <nav class="nav">
+                    <a href="index.html#trending" class="nav-link">トレンド</a>
+                    <a href="index.html#latest" class="nav-link">新着</a>
+                    <a href="index.html#categories" class="nav-link">カテゴリ</a>
+                    <a href="post.html" class="nav-link post-btn">
+                        <i class="fas fa-pen"></i>
+                        記事を書く
+                    </a>
+                </nav>
+                
+                <div class="search-box">
+                    <input type="text" placeholder="記事を検索..." id="search-input">
+                    <button id="search-btn">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- メインコンテンツ -->
+    <main class="main">
+        <div class="container">
+            <!-- パンくずリスト -->
+            <nav class="breadcrumb">
+                <a href="index.html">ホーム</a>
+                <i class="fas fa-chevron-right"></i>
+                <span id="breadcrumb-category">プログラミング</span>
+                <i class="fas fa-chevron-right"></i>
+                <span>記事詳細</span>
+            </nav>
+
+            <div class="article-layout">
+                <!-- メイン記事エリア -->
+                <article class="article-main">
+                    <!-- 記事ヘッダー -->
+                    <header class="article-header">
+                        <div class="article-tags" id="article-tags">
+                            <span class="tag">ChatGPT</span>
+                            <span class="tag">Python</span>
+                            <span class="tag">API</span>
+                        </div>
+                        
+                        <h1 class="article-title" id="main-article-title">
+                            ChatGPT APIを使った自動記事生成システムを構築してみた
+                        </h1>
+                        
+                        <div class="article-meta">
+                            <div class="author-section">
+                                <img src="https://via.placeholder.com/48x48?text=TK" alt="T.K" class="author-avatar">
+                                <div class="author-info">
+                                    <div class="author-name">T.K</div>
+                                    <div class="author-role">AIエンジニア</div>
+                                    <div class="author-stats">記事数: 47 · フォロワー: 1,234</div>
+                                </div>
+                                <button class="follow-btn">
+                                    <i class="fas fa-plus"></i>
+                                    フォロー
+                                </button>
+                            </div>
+                            
+                            <div class="article-stats-section">
+                                <div class="publish-info">
+                                    <span class="publish-date">2024年8月30日 15:30</span>
+                                    <span class="read-time">8分で読める</span>
+                                </div>
+                                
+                                <div class="article-actions">
+                                    <button class="action-btn like-btn" data-article-id="1">
+                                        <i class="far fa-heart"></i>
+                                        <span class="count">124</span>
+                                    </button>
+                                    <button class="action-btn bookmark-btn">
+                                        <i class="far fa-bookmark"></i>
+                                        <span class="count">45</span>
+                                    </button>
+                                    <button class="action-btn share-btn">
+                                        <i class="fas fa-share"></i>
+                                        シェア
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </header>
+
+                    <!-- AdSense 記事上部 -->
+                    <div class="ad-banner article-ad">
+                        <ins class="adsbygoogle"
+                             style="display:block"
+                             data-ad-client="ca-pub-XXXXXXXXXX"
+                             data-ad-slot="XXXXXXXXXX"
+                             data-ad-format="auto"></ins>
+                    </div>
+
+                    <!-- 記事本文 -->
+                    <div class="article-content" id="article-body">
+                        <div class="content-section">
+                            <h2>はじめに</h2>
+                            <p>こんにちは！今回はOpenAI社のChatGPT APIを使って、自動で記事を生成するシステムを構築してみました。プロンプトエンジニアリングのコツや実装の詳細について、実際のコード例と共に解説していきます。</p>
+                            
+                            <div class="info-box">
+                                <i class="fas fa-info-circle"></i>
+                                <div>
+                                    <strong>この記事でわかること</strong>
+                                    <ul>
+                                        <li>ChatGPT APIの効果的な使い方</li>
+                                        <li>プロンプトエンジニアリングのベストプラクティス</li>
+                                        <li>記事生成システムの実装方法</li>
+                                        <li>品質の高い記事を生成するコツ</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="content-section">
+                            <h2>システム構成</h2>
+                            <p>今回構築したシステムの全体像は以下の通りです：</p>
+                            
+                            <div class="code-block">
+                                <div class="code-header">
+                                    <span class="code-lang">Python</span>
+                                    <button class="copy-btn" onclick="copyCode(this)">
+                                        <i class="fas fa-copy"></i>
+                                    </button>
+                                </div>
+                                <pre><code class="language-python">import openai
+import json
+from typing import Dict, List
+
+class ArticleGenerator:
+    def __init__(self, api_key: str):
+        openai.api_key = api_key
+        self.system_prompt = """
+        あなたは技術記事の専門ライターです。
+        読みやすく、実用的で、SEOに配慮した記事を作成してください。
+        """
+    
+    def generate_article(self, topic: str, keywords: List[str]) -> Dict:
+        prompt = f"""
+        テーマ: {topic}
+        キーワード: {', '.join(keywords)}
+        
+        上記のテーマで2000文字程度の技術記事を作成してください。
+        """
+        
+        response = openai.ChatCompletion.create(
+            model="gpt-4",
+            messages=[
+                {"role": "system", "content": self.system_prompt},
+                {"role": "user", "content": prompt}
+            ],
+            temperature=0.7
+        )
+        
+        return {
+            "content": response.choices[0].message.content,
+            "usage": response.usage
+        }</code></pre>
+                            </div>
+                        </div>
+
+                        <!-- AdSense 記事中間 -->
+                        <div class="ad-banner article-ad">
+                            <ins class="adsbygoogle"
+                                 style="display:block"
+                                 data-ad-client="ca-pub-XXXXXXXXXX"
+                                 data-ad-slot="XXXXXXXXXX"
+                                 data-ad-format="auto"></ins>
+                        </div>
+
+                        <div class="content-section">
+                            <h2>プロンプトエンジニアリングのコツ</h2>
+                            <p>高品質な記事を生成するために、以下のようなプロンプトの工夫を行いました：</p>
+                            
+                            <h3>1. システムプロンプトの活用</h3>
+                            <p>システムプロンプトでAIの役割を明確に定義することで、一貫性のある記事を生成できます。</p>
+                            
+                            <div class="tip-box">
+                                <i class="fas fa-lightbulb"></i>
+                                <div>
+                                    <strong>プロのTIPS</strong>
+                                    <p>システムプロンプトには「あなたは〜です」という形で役割を与え、期待する出力の形式も具体的に指示しましょう。</p>
+                                </div>
+                            </div>
+                            
+                            <h3>2. 温度設定の調整</h3>
+                            <p>temperatureパラメータを0.7に設定することで、創造性と一貫性のバランスを取りました。</p>
+                            
+                            <ul>
+                                <li><strong>0.0-0.3</strong>: 一貫性重視、ファクトチェックが重要な記事</li>
+                                <li><strong>0.4-0.7</strong>: バランス型、技術記事に最適</li>
+                                <li><strong>0.8-1.0</strong>: 創造性重視、ブレインストーミング向け</li>
+                            </ul>
+                        </div>
+
+                        <!-- アフィリエイト記事挿入 -->
+                        <div class="affiliate-section">
+                            <h3>🎯 おすすめプログラミング学習サービス</h3>
+                            <div class="affiliate-content">
+                                <div class="affiliate-item">
+                                    <img src="https://via.placeholder.com/100x100?text=Logo" alt="プログラミングスクール">
+                                    <div class="affiliate-info">
+                                        <h4>TechAcademy</h4>
+                                        <p>オンライン完結のプログラミングスクール。現役エンジニアがメンターとしてサポート。</p>
+                                        <a href="#" class="affiliate-btn">詳細を見る</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="content-section">
+                            <h2>実装のポイント</h2>
+                            <p>実際の実装で気をつけたポイントを紹介します。</p>
+                            
+                            <h3>エラーハンドリング</h3>
+                            <p>API呼び出しのエラーハンドリングは必須です：</p>
+                            
+                            <div class="code-block">
+                                <div class="code-header">
+                                    <span class="code-lang">Python</span>
+                                    <button class="copy-btn" onclick="copyCode(this)">
+                                        <i class="fas fa-copy"></i>
+                                    </button>
+                                </div>
+                                <pre><code class="language-python">try:
+    response = openai.ChatCompletion.create(...)
+    return response.choices[0].message.content
+except openai.error.RateLimitError:
+    print("レート制限に達しました。しばらく待ってから再試行してください。")
+except openai.error.APIError as e:
+    print(f"OpenAI API エラー: {e}")
+except Exception as e:
+    print(f"予期しないエラー: {e}")</code></pre>
+                            </div>
+                        </div>
+
+                        <div class="content-section">
+                            <h2>まとめ</h2>
+                            <p>ChatGPT APIを使った記事生成システムを構築することで、効率的にコンテンツを作成できるようになりました。ポイントは以下の通りです：</p>
+                            
+                            <div class="summary-box">
+                                <h4>要点まとめ</h4>
+                                <ul>
+                                    <li>システムプロンプトでAIの役割を明確に定義</li>
+                                    <li>temperature設定で品質をコントロール</li>
+                                    <li>エラーハンドリングを忘れずに実装</li>
+                                    <li>生成された記事は人間がレビューすることが重要</li>
+                                </ul>
+                            </div>
+                            
+                            <p>皆さんもぜひ試してみて、感想を教えてください！</p>
+                        </div>
+                    </div>
+
+                    <!-- 記事フッター -->
+                    <footer class="article-footer">
+                        <div class="article-actions-bottom">
+                            <button class="action-btn-large like-btn" data-article-id="1">
+                                <i class="far fa-heart"></i>
+                                いいね<span class="count">124</span>
+                            </button>
+                            <button class="action-btn-large bookmark-btn">
+                                <i class="far fa-bookmark"></i>
+                                ブックマーク<span class="count">45</span>
+                            </button>
+                            <button class="action-btn-large share-btn">
+                                <i class="fas fa-share"></i>
+                                シェア
+                            </button>
+                        </div>
+                        
+                        <div class="article-tags-bottom" id="article-tags-bottom">
+                            <span class="tag">ChatGPT</span>
+                            <span class="tag">Python</span>
+                            <span class="tag">API</span>
+                            <span class="tag">自動化</span>
+                        </div>
+                    </footer>
+
+                    <!-- AdSense 記事下部 -->
+                    <div class="ad-banner article-ad">
+                        <ins class="adsbygoogle"
+                             style="display:block"
+                             data-ad-client="ca-pub-XXXXXXXXXX"
+                             data-ad-slot="XXXXXXXXXX"
+                             data-ad-format="auto"></ins>
+                    </div>
+
+                    <!-- コメントセクション -->
+                    <section class="comments-section">
+                        <h3>コメント <span class="comment-count">(8)</span></h3>
+                        
+                        <!-- コメント投稿フォーム -->
+                        <div class="comment-form">
+                            <div class="comment-input-area">
+                                <img src="https://via.placeholder.com/40x40?text=YOU" alt="あなた" class="comment-avatar">
+                                <textarea placeholder="コメントを入力..." id="comment-input" rows="3"></textarea>
+                            </div>
+                            <div class="comment-actions">
+                                <button class="post-comment-btn" id="post-comment">
+                                    <i class="fas fa-paper-plane"></i>
+                                    投稿
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- コメント一覧 -->
+                        <div class="comments-list" id="comments-list">
+                            <div class="comment-item">
+                                <img src="https://via.placeholder.com/40x40?text=YM" alt="Y.M" class="comment-avatar">
+                                <div class="comment-content">
+                                    <div class="comment-header">
+                                        <span class="commenter-name">Y.M</span>
+                                        <span class="comment-date">3時間前</span>
+                                    </div>
+                                    <p class="comment-text">とても参考になりました！プロンプトエンジニアリングの部分、特に温度設定の説明が分かりやすかったです。実際にやってみます。</p>
+                                    <div class="comment-actions-small">
+                                        <button class="comment-action-btn">
+                                            <i class="far fa-heart"></i>
+                                            12
+                                        </button>
+                                        <button class="comment-action-btn">
+                                            <i class="fas fa-reply"></i>
+                                            返信
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="comment-item">
+                                <img src="https://via.placeholder.com/40x40?text=KT" alt="K.T" class="comment-avatar">
+                                <div class="comment-content">
+                                    <div class="comment-header">
+                                        <span class="commenter-name">K.T</span>
+                                        <span class="comment-date">5時間前</span>
+                                    </div>
+                                    <p class="comment-text">エラーハンドリングのコード例が助かりました。実際のプロダクションでも使えそうです。GitHubにコード公開していたら教えてください！</p>
+                                    <div class="comment-actions-small">
+                                        <button class="comment-action-btn liked">
+                                            <i class="fas fa-heart"></i>
+                                            8
+                                        </button>
+                                        <button class="comment-action-btn">
+                                            <i class="fas fa-reply"></i>
+                                            返信
+                                        </button>
+                                    </div>
+                                    
+                                    <!-- 返信 -->
+                                    <div class="reply-item">
+                                        <img src="https://via.placeholder.com/32x32?text=TK" alt="T.K" class="reply-avatar">
+                                        <div class="reply-content">
+                                            <div class="reply-header">
+                                                <span class="replier-name">T.K</span>
+                                                <span class="author-badge">著者</span>
+                                                <span class="reply-date">4時間前</span>
+                                            </div>
+                                            <p class="reply-text">ありがとうございます！GitHubリポジトリは記事の最後にリンクを追加しておきました。ぜひ参考にしてください。</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="comment-item">
+                                <img src="https://via.placeholder.com/40x40?text=AS" alt="A.S" class="comment-avatar">
+                                <div class="comment-content">
+                                    <div class="comment-header">
+                                        <span class="commenter-name">A.S</span>
+                                        <span class="comment-date">1日前</span>
+                                    </div>
+                                    <p class="comment-text">GPT-4とGPT-3.5-turboの記事品質の違いについても知りたいです。コスト面も含めて比較記事があると嬉しいです。</p>
+                                    <div class="comment-actions-small">
+                                        <button class="comment-action-btn">
+                                            <i class="far fa-heart"></i>
+                                            15
+                                        </button>
+                                        <button class="comment-action-btn">
+                                            <i class="fas fa-reply"></i>
+                                            返信
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <button class="load-more-comments">
+                            <i class="fas fa-chevron-down"></i>
+                            コメントをもっと見る
+                        </button>
+                    </section>
+                </article>
+
+                <!-- サイドバー -->
+                <aside class="article-sidebar">
+                    <!-- 著者情報 -->
+                    <div class="widget author-widget">
+                        <h3>著者について</h3>
+                        <div class="author-card">
+                            <img src="https://via.placeholder.com/80x80?text=TK" alt="T.K" class="author-avatar-large">
+                            <div class="author-details">
+                                <h4 class="author-name">T.K</h4>
+                                <p class="author-bio">AIエンジニア。機械学習とWeb開発が専門。ChatGPTを活用した自動化システムの構築経験多数。</p>
+                                <div class="author-stats">
+                                    <span>記事数: 47</span>
+                                    <span>フォロワー: 1,234</span>
+                                </div>
+                                <button class="follow-btn-large">
+                                    <i class="fas fa-plus"></i>
+                                    フォローする
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 目次 -->
+                    <div class="widget toc-widget">
+                        <h3>目次</h3>
+                        <nav class="table-of-contents" id="toc">
+                            <ul>
+                                <li><a href="#section-1">はじめに</a></li>
+                                <li><a href="#section-2">システム構成</a></li>
+                                <li><a href="#section-3">プロンプトエンジニアリングのコツ</a>
+                                    <ul>
+                                        <li><a href="#section-3-1">システムプロンプトの活用</a></li>
+                                        <li><a href="#section-3-2">温度設定の調整</a></li>
+                                    </ul>
+                                </li>
+                                <li><a href="#section-4">実装のポイント</a></li>
+                                <li><a href="#section-5">まとめ</a></li>
+                            </ul>
+                        </nav>
+                    </div>
+                    
+                    <!-- AdSense サイドバー -->
+                    <div class="widget ad-widget">
+                        <ins class="adsbygoogle"
+                             style="display:block"
+                             data-ad-client="ca-pub-XXXXXXXXXX"
+                             data-ad-slot="XXXXXXXXXX"
+                             data-ad-format="auto"></ins>
+                    </div>
+                    
+                    <!-- 関連記事 -->
+                    <div class="widget related-widget">
+                        <h3>関連記事</h3>
+                        <div class="related-articles">
+                            <a href="#" class="related-article">
+                                <img src="https://via.placeholder.com/80x60?text=AI" alt="AI記事">
+                                <div class="related-content">
+                                    <h4>GitHub Copilotで開発効率を10倍にする方法</h4>
+                                    <span class="related-date">1週間前</span>
+                                </div>
+                            </a>
+                            <a href="#" class="related-article">
+                                <img src="https://via.placeholder.com/80x60?text=Python" alt="Python記事">
+                                <div class="related-content">
+                                    <h4>Pythonで作るWeb スクレイピング完全ガイド</h4>
+                                    <span class="related-date">2週間前</span>
+                                </div>
+                            </a>
+                            <a href="#" class="related-article">
+                                <img src="https://via.placeholder.com/80x60?text=API" alt="API記事">
+                                <div class="related-content">
+                                    <h4>REST API設計のベストプラクティス2024</h4>
+                                    <span class="related-date">3週間前</span>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <!-- 人気記事 -->
+                    <div class="widget popular-widget">
+                        <h3>今週の人気記事</h3>
+                        <div class="popular-articles">
+                            <a href="#" class="popular-article">
+                                <span class="popular-rank">1</span>
+                                <div class="popular-content">
+                                    <h4>ChatGPT APIで記事生成システム構築</h4>
+                                    <span class="popular-views">3.2k views</span>
+                                </div>
+                            </a>
+                            <a href="#" class="popular-article">
+                                <span class="popular-rank">2</span>
+                                <div class="popular-content">
+                                    <h4>React 18の新機能完全ガイド</h4>
+                                    <span class="popular-views">2.8k views</span>
+                                </div>
+                            </a>
+                            <a href="#" class="popular-article">
+                                <span class="popular-rank">3</span>
+                                <div class="popular-content">
+                                    <h4>Docker Composeで開発環境構築</h4>
+                                    <span class="popular-views">2.1k views</span>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </aside>
+            </div>
+        </div>
+    </main>
+
+    <!-- フッター -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>TechNote</h4>
+                    <p>知識を共有し、学び合うコミュニティプラットフォーム</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>コンテンツ</h4>
+                    <ul>
+                        <li><a href="index.html">記事一覧</a></li>
+                        <li><a href="post.html">記事を書く</a></li>
+                        <li><a href="#">利用規約</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2024 TechNote. Powered by GitHub Pages + AI</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    <script src="assets/app.js"></script>
+    <script src="assets/article.js"></script>
+</body>
+</html>

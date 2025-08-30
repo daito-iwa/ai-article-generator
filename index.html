@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TechNote - みんなで作る技術記事プラットフォーム</title>
+    <meta name="description" content="エンジニア・クリエイター・ビジネスパーソンが知識を共有する記事投稿プラットフォーム。AI自動生成記事とユーザー投稿記事で最新情報をお届け。">
+    <link rel="stylesheet" href="assets/style.css">
+    
+    <!-- Google AdSense -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXX" crossorigin="anonymous"></script>
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- ヘッダー -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <h1 class="logo">
+                    <a href="index.html">
+                        <i class="fas fa-code"></i>
+                        TechNote
+                    </a>
+                </h1>
+                
+                <nav class="nav">
+                    <a href="#trending" class="nav-link">トレンド</a>
+                    <a href="#latest" class="nav-link">新着</a>
+                    <a href="#categories" class="nav-link">カテゴリ</a>
+                    <a href="post.html" class="nav-link post-btn">
+                        <i class="fas fa-pen"></i>
+                        記事を書く
+                    </a>
+                </nav>
+                
+                <div class="search-box">
+                    <input type="text" placeholder="記事を検索..." id="search-input">
+                    <button id="search-btn">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- メインコンテンツ -->
+    <main class="main">
+        <div class="container">
+            <!-- ヒーロセクション -->
+            <section class="hero">
+                <div class="hero-content">
+                    <h2>知識を共有し、学び合うコミュニティ</h2>
+                    <p>エンジニア・クリエイター・ビジネスパーソンが最新情報と知見を投稿。AI生成記事とユーザー投稿で、毎日新しい発見があります。</p>
+                    <div class="hero-stats">
+                        <div class="stat-item">
+                            <span class="stat-number" id="total-articles">1,247</span>
+                            <span class="stat-label">記事数</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number" id="total-users">389</span>
+                            <span class="stat-label">投稿者</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number" id="daily-views">15.2k</span>
+                            <span class="stat-label">日間PV</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- AdSense 広告 -->
+            <div class="ad-banner">
+                <ins class="adsbygoogle"
+                     style="display:block"
+                     data-ad-client="ca-pub-XXXXXXXXXX"
+                     data-ad-slot="XXXXXXXXXX"
+                     data-ad-format="auto"></ins>
+            </div>
+
+            <div class="content-grid">
+                <!-- メインコンテンツエリア -->
+                <div class="main-content">
+                    <!-- タブナビゲーション -->
+                    <div class="tab-nav">
+                        <button class="tab-btn active" data-tab="trending">
+                            <i class="fas fa-fire"></i>
+                            トレンド
+                        </button>
+                        <button class="tab-btn" data-tab="latest">
+                            <i class="fas fa-clock"></i>
+                            新着
+                        </button>
+                        <button class="tab-btn" data-tab="popular">
+                            <i class="fas fa-star"></i>
+                            人気
+                        </button>
+                        <button class="tab-btn" data-tab="ai-generated">
+                            <i class="fas fa-robot"></i>
+                            AI記事
+                        </button>
+                    </div>
+
+                    <!-- 記事リスト -->
+                    <div class="articles-container">
+                        <!-- トレンド記事 -->
+                        <div id="trending" class="tab-content active">
+                            <div class="articles-list">
+                                <article class="article-card featured">
+                                    <div class="article-image">
+                                        <img src="https://via.placeholder.com/300x200?text=AI+Technology" alt="AI技術">
+                                        <span class="article-badge trending">トレンド</span>
+                                    </div>
+                                    <div class="article-content">
+                                        <div class="article-meta">
+                                            <div class="author-info">
+                                                <img src="https://via.placeholder.com/32x32?text=TK" alt="T.K" class="author-avatar">
+                                                <span class="author-name">T.K</span>
+                                                <span class="author-role">AIエンジニア</span>
+                                            </div>
+                                            <span class="publish-date">3時間前</span>
+                                        </div>
+                                        <h3 class="article-title">
+                                            <a href="article.html?id=1">ChatGPT APIを使った自動記事生成システムを構築してみた</a>
+                                        </h3>
+                                        <p class="article-excerpt">
+                                            OpenAI APIを使って記事を自動生成するシステムを作成しました。プロンプトエンジニアリングのコツと実装方法を詳しく解説します...
+                                        </p>
+                                        <div class="article-footer">
+                                            <div class="article-tags">
+                                                <span class="tag">ChatGPT</span>
+                                                <span class="tag">Python</span>
+                                                <span class="tag">API</span>
+                                            </div>
+                                            <div class="article-stats">
+                                                <span class="stat">
+                                                    <i class="fas fa-heart"></i>
+                                                    124
+                                                </span>
+                                                <span class="stat">
+                                                    <i class="fas fa-comment"></i>
+                                                    23
+                                                </span>
+                                                <span class="stat">
+                                                    <i class="fas fa-eye"></i>
+                                                    1.2k
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </article>
+
+                                <article class="article-card">
+                                    <div class="article-content">
+                                        <div class="article-meta">
+                                            <div class="author-info">
+                                                <img src="https://via.placeholder.com/32x32?text=MY" alt="M.Y" class="author-avatar">
+                                                <span class="author-name">M.Y</span>
+                                                <span class="author-role">ライフスタイル</span>
+                                            </div>
+                                            <span class="publish-date">5時間前</span>
+                                        </div>
+                                        <h3 class="article-title">
+                                            <a href="article.html?id=2">副業ブログで月10万円達成した完全ロードマップ</a>
+                                        </h3>
+                                        <p class="article-excerpt">
+                                            ブログ未経験から始めて6ヶ月で月10万円の収益化に成功。実際の収益推移と具体的な施策を全て公開します...
+                                        </p>
+                                        <div class="article-footer">
+                                            <div class="article-tags">
+                                                <span class="tag">ブログ</span>
+                                                <span class="tag">副業</span>
+                                                <span class="tag">収益化</span>
+                                            </div>
+                                            <div class="article-stats">
+                                                <span class="stat">
+                                                    <i class="fas fa-heart"></i>
+                                                    89
+                                                </span>
+                                                <span class="stat">
+                                                    <i class="fas fa-comment"></i>
+                                                    15
+                                                </span>
+                                                <span class="stat">
+                                                    <i class="fas fa-eye"></i>
+                                                    956
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </article>
+
+                                <article class="article-card">
+                                    <div class="article-content">
+                                        <div class="article-meta">
+                                            <div class="author-info">
+                                                <img src="https://via.placeholder.com/32x32?text=SJ" alt="S.J" class="author-avatar">
+                                                <span class="author-name">S.J</span>
+                                                <span class="author-role">ビジネス</span>
+                                            </div>
+                                            <span class="publish-date">1日前</span>
+                                        </div>
+                                        <h3 class="article-title">
+                                            <a href="article.html?id=3">GitHub Pages + AI自動化で作る無料収益サイト</a>
+                                        </h3>
+                                        <p class="article-excerpt">
+                                            完全無料でプロ級のWebサイトを構築し、AI自動化で収益化する方法を解説。初期費用0円から月収50万円を目指すテクニック...
+                                        </p>
+                                        <div class="article-footer">
+                                            <div class="article-tags">
+                                                <span class="tag">GitHub</span>
+                                                <span class="tag">AI</span>
+                                                <span class="tag">収益化</span>
+                                            </div>
+                                            <div class="article-stats">
+                                                <span class="stat">
+                                                    <i class="fas fa-heart"></i>
+                                                    156
+                                                </span>
+                                                <span class="stat">
+                                                    <i class="fas fa-comment"></i>
+                                                    34
+                                                </span>
+                                                <span class="stat">
+                                                    <i class="fas fa-eye"></i>
+                                                    2.1k
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </article>
+                            </div>
+                        </div>
+
+                        <!-- 他のタブコンテンツは動的に読み込み -->
+                        <div id="latest" class="tab-content">
+                            <div class="loading">
+                                <i class="fas fa-spinner fa-spin"></i>
+                                新着記事を読み込み中...
+                            </div>
+                        </div>
+
+                        <div id="popular" class="tab-content">
+                            <div class="loading">
+                                <i class="fas fa-spinner fa-spin"></i>
+                                人気記事を読み込み中...
+                            </div>
+                        </div>
+
+                        <div id="ai-generated" class="tab-content">
+                            <div class="loading">
+                                <i class="fas fa-spinner fa-spin"></i>
+                                AI記事を読み込み中...
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ページネーション -->
+                    <div class="pagination">
+                        <button class="page-btn" disabled>
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                        <span class="page-numbers">
+                            <span class="page-number active">1</span>
+                            <span class="page-number">2</span>
+                            <span class="page-number">3</span>
+                            <span class="page-dots">...</span>
+                            <span class="page-number">15</span>
+                        </span>
+                        <button class="page-btn">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- サイドバー -->
+                <aside class="sidebar">
+                    <!-- 投稿促進 -->
+                    <div class="widget cta-widget">
+                        <h3>記事を投稿しよう</h3>
+                        <p>あなたの知識と経験をシェアしませんか？</p>
+                        <a href="post.html" class="cta-btn">
+                            <i class="fas fa-pen"></i>
+                            今すぐ書く
+                        </a>
+                    </div>
+
+                    <!-- AdSense サイドバー広告 -->
+                    <div class="widget ad-widget">
+                        <ins class="adsbygoogle"
+                             style="display:block"
+                             data-ad-client="ca-pub-XXXXXXXXXX"
+                             data-ad-slot="XXXXXXXXXX"
+                             data-ad-format="auto"></ins>
+                    </div>
+
+                    <!-- トレンドタグ -->
+                    <div class="widget">
+                        <h3>トレンドタグ</h3>
+                        <div class="trending-tags">
+                            <a href="#" class="trend-tag hot">ChatGPT</a>
+                            <a href="#" class="trend-tag">Python</a>
+                            <a href="#" class="trend-tag">React</a>
+                            <a href="#" class="trend-tag hot">AI</a>
+                            <a href="#" class="trend-tag">副業</a>
+                            <a href="#" class="trend-tag">投資</a>
+                            <a href="#" class="trend-tag hot">GitHub</a>
+                            <a href="#" class="trend-tag">Docker</a>
+                        </div>
+                    </div>
+
+                    <!-- 人気記事ランキング -->
+                    <div class="widget">
+                        <h3>今週の人気記事</h3>
+                        <div class="ranking-list">
+                            <a href="#" class="ranking-item">
+                                <span class="rank">1</span>
+                                <div class="rank-content">
+                                    <h4>ChatGPT APIで記事生成システム構築</h4>
+                                    <span class="rank-stats">1.2k views</span>
+                                </div>
+                            </a>
+                            <a href="#" class="ranking-item">
+                                <span class="rank">2</span>
+                                <div class="rank-content">
+                                    <h4>副業ブログで月10万円のロードマップ</h4>
+                                    <span class="rank-stats">956 views</span>
+                                </div>
+                            </a>
+                            <a href="#" class="ranking-item">
+                                <span class="rank">3</span>
+                                <div class="rank-content">
+                                    <h4>GitHub Pages無料収益サイト構築法</h4>
+                                    <span class="rank-stats">823 views</span>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- カテゴリ -->
+                    <div class="widget">
+                        <h3>カテゴリ</h3>
+                        <div class="categories">
+                            <a href="#" class="category-item">
+                                <i class="fas fa-code"></i>
+                                プログラミング
+                                <span class="count">342</span>
+                            </a>
+                            <a href="#" class="category-item">
+                                <i class="fas fa-robot"></i>
+                                AI・機械学習
+                                <span class="count">189</span>
+                            </a>
+                            <a href="#" class="category-item">
+                                <i class="fas fa-briefcase"></i>
+                                ビジネス
+                                <span class="count">156</span>
+                            </a>
+                            <a href="#" class="category-item">
+                                <i class="fas fa-chart-line"></i>
+                                投資・副業
+                                <span class="count">98</span>
+                            </a>
+                            <a href="#" class="category-item">
+                                <i class="fas fa-palette"></i>
+                                デザイン
+                                <span class="count">73</span>
+                            </a>
+                        </div>
+                    </div>
+                </aside>
+            </div>
+        </div>
+    </main>
+
+    <!-- フッター -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>TechNote</h4>
+                    <p>知識を共有し、学び合うコミュニティプラットフォーム</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-github"></i></a>
+                        <a href="#"><i class="fab fa-discord"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>コンテンツ</h4>
+                    <ul>
+                        <li><a href="#">トレンド記事</a></li>
+                        <li><a href="#">新着記事</a></li>
+                        <li><a href="#">人気記事</a></li>
+                        <li><a href="#">AI記事</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>コミュニティ</h4>
+                    <ul>
+                        <li><a href="post.html">記事を書く</a></li>
+                        <li><a href="#">投稿ガイドライン</a></li>
+                        <li><a href="#">利用規約</a></li>
+                        <li><a href="#">プライバシーポリシー</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>収益化について</h4>
+                    <p>このサイトはユーザー投稿とAI自動生成記事で運営されています。</p>
+                    <small>広告収入により完全無料でご利用いただけます。</small>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2024 TechNote. Powered by GitHub Pages + AI</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="assets/app.js"></script>
+    
+    <!-- AdSense自動広告 -->
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</body>
+</html>
