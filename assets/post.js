@@ -355,7 +355,7 @@ class PostEditor {
             this.showMessage('記事が公開されました！', 'success');
             
             setTimeout(() => {
-                window.location.href = 'index.html';
+                window.location.href = './index.html';
             }, 2000);
             
         } catch (error) {

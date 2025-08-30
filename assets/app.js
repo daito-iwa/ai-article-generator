@@ -247,7 +247,7 @@ class TechNoteApp {
                         <span class="publish-date">${article.publishDate}</span>
                     </div>
                     <h3 class="article-title">
-                        <a href="article.html?id=${article.id}">${article.title}</a>
+                        <a href="./article.html?id=${article.id}">${article.title}</a>
                     </h3>
                     <p class="article-excerpt">${article.excerpt}</p>
                     <div class="article-footer">
