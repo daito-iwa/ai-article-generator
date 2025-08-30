@@ -1,0 +1,193 @@
+
+/* ブログスタイル */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+    line-height: 1.6;
+    color: #333;
+    background: #f5f5f5;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* ヘッダー */
+.header {
+    background: #2c3e50;
+    color: white;
+    padding: 30px 0;
+    margin-bottom: 40px;
+    text-align: center;
+}
+
+.header h1 {
+    font-size: 2.5em;
+    margin-bottom: 10px;
+}
+
+.header p {
+    font-size: 1.2em;
+    opacity: 0.9;
+}
+
+/* 記事一覧 */
+.article-list {
+    display: grid;
+    gap: 30px;
+}
+
+.article-card {
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease;
+}
+
+.article-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+}
+
+.article-card h2 {
+    margin-bottom: 15px;
+    font-size: 1.8em;
+}
+
+.article-card h2 a {
+    color: #2c3e50;
+    text-decoration: none;
+}
+
+.article-card h2 a:hover {
+    color: #3498db;
+}
+
+.article-meta {
+    color: #666;
+    font-size: 0.9em;
+    margin-bottom: 15px;
+}
+
+.article-excerpt {
+    color: #555;
+    line-height: 1.8;
+}
+
+.read-more {
+    display: inline-block;
+    margin-top: 15px;
+    color: #3498db;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.read-more:hover {
+    text-decoration: underline;
+}
+
+/* 記事ページ */
+.article {
+    background: white;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.article h1 {
+    font-size: 2.5em;
+    margin-bottom: 20px;
+    color: #2c3e50;
+}
+
+.article h2 {
+    font-size: 1.8em;
+    margin: 30px 0 15px;
+    color: #34495e;
+}
+
+.article h3 {
+    font-size: 1.4em;
+    margin: 20px 0 10px;
+    color: #34495e;
+}
+
+.article p {
+    margin-bottom: 20px;
+    line-height: 1.8;
+}
+
+.article a {
+    color: #3498db;
+    text-decoration: none;
+}
+
+.article a:hover {
+    text-decoration: underline;
+}
+
+.article ul, .article ol {
+    margin: 20px 0;
+    padding-left: 30px;
+}
+
+.article li {
+    margin-bottom: 10px;
+}
+
+/* 広告エリア */
+.ad-container {
+    background: #f9f9f9;
+    border: 2px dashed #ddd;
+    padding: 20px;
+    margin: 30px 0;
+    text-align: center;
+    border-radius: 5px;
+}
+
+.ad-container p {
+    color: #999;
+    font-size: 0.9em;
+}
+
+/* フッター */
+.footer {
+    background: #34495e;
+    color: white;
+    text-align: center;
+    padding: 30px 0;
+    margin-top: 60px;
+}
+
+.footer p {
+    opacity: 0.8;
+}
+
+/* レスポンシブ */
+@media (max-width: 768px) {
+    .container {
+        padding: 10px;
+    }
+    
+    .header h1 {
+        font-size: 2em;
+    }
+    
+    .article {
+        padding: 20px;
+    }
+    
+    .article h1 {
+        font-size: 2em;
+    }
+}

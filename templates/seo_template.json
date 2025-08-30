@@ -1,0 +1,90 @@
+{
+  "structured_data": {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "{title}",
+    "description": "{meta_description}",
+    "image": "{featured_image_url}",
+    "author": {
+      "@type": "Person",
+      "name": "{author_name}",
+      "url": "{author_url}"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "{site_name}",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "{site_logo_url}"
+      }
+    },
+    "datePublished": "{published_date}",
+    "dateModified": "{modified_date}",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "{article_url}"
+    },
+    "keywords": "{keywords_comma_separated}",
+    "wordCount": "{word_count}",
+    "articleSection": "{category}"
+  },
+  "meta_tags": {
+    "title": "{seo_title}",
+    "description": "{meta_description}",
+    "keywords": "{meta_keywords}",
+    "robots": "index, follow",
+    "canonical": "{canonical_url}",
+    "og:title": "{og_title}",
+    "og:description": "{og_description}",
+    "og:image": "{og_image}",
+    "og:url": "{og_url}",
+    "og:type": "article",
+    "og:site_name": "{site_name}",
+    "twitter:card": "summary_large_image",
+    "twitter:title": "{twitter_title}",
+    "twitter:description": "{twitter_description}",
+    "twitter:image": "{twitter_image}",
+    "article:author": "{author_name}",
+    "article:published_time": "{published_date}",
+    "article:modified_time": "{modified_date}",
+    "article:section": "{category}",
+    "article:tag": "{tags_comma_separated}"
+  },
+  "internal_links": [
+    {
+      "anchor_text": "{internal_link_1_anchor}",
+      "url": "{internal_link_1_url}",
+      "context": "{internal_link_1_context}"
+    },
+    {
+      "anchor_text": "{internal_link_2_anchor}",
+      "url": "{internal_link_2_url}",
+      "context": "{internal_link_2_context}"
+    }
+  ],
+  "external_links": [
+    {
+      "anchor_text": "{external_link_1_anchor}",
+      "url": "{external_link_1_url}",
+      "rel": "noopener",
+      "context": "{external_link_1_context}"
+    }
+  ],
+  "image_optimization": {
+    "featured_image": {
+      "url": "{featured_image_url}",
+      "alt": "{featured_image_alt}",
+      "title": "{featured_image_title}",
+      "width": "{featured_image_width}",
+      "height": "{featured_image_height}"
+    },
+    "content_images": [
+      {
+        "url": "{content_image_1_url}",
+        "alt": "{content_image_1_alt}",
+        "title": "{content_image_1_title}",
+        "caption": "{content_image_1_caption}"
+      }
+    ]
+  }
+}

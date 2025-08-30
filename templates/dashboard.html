@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ダッシュボード - AI記事生成システム</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50">
+
+<!-- ヘッダー -->
+<nav class="bg-white shadow-lg">
+    <div class="max-w-7xl mx-auto px-4">
+        <div class="flex justify-between items-center py-4">
+            <h1 class="text-2xl font-bold text-gray-800">AI記事生成システム</h1>
+            <div class="flex items-center space-x-4">
+                <div id="userStatus" class="text-sm text-gray-600"></div>
+                <button onclick="logout()" class="text-gray-600 hover:text-gray-800">ログアウト</button>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<!-- メインコンテンツ -->
+<div class="max-w-7xl mx-auto px-4 py-8">
+    
+    <!-- 利用状況 -->
+    <div class="bg-white rounded-lg shadow-lg p-6 mb-8">
+        <h2 class="text-xl font-bold mb-4">利用状況</h2>
+        <div class="grid md:grid-cols-3 gap-6">
+            <div class="text-center">
+                <div class="text-3xl font-bold text-blue-600" id="articlesUsed">-</div>
+                <div class="text-gray-600">今月の記事生成数</div>
+            </div>
+            <div class="text-center">
+                <div class="text-3xl font-bold text-green-600" id="articlesRemaining">-</div>
+                <div class="text-gray-600">残り記事数</div>
+            </div>
+            <div class="text-center">
+                <div class="text-lg font-bold text-purple-600" id="currentPlan">-</div>
+                <div class="text-gray-600">現在のプラン</div>
+            </div>
+        </div>
+        
+        <div class="mt-6">
+            <div class="bg-gray-200 rounded-full h-2">
+                <div id="usageProgress" class="bg-blue-600 h-2 rounded-full transition-all duration-300" style="width: 0%"></div>
+            </div>
+            <div class="text-sm text-gray-600 mt-2">利用率: <span id="usagePercent">0%</span></div>
+        </div>
+    </div>
+
+    <div class="grid lg:grid-cols-2 gap-8">
+        
+        <!-- 記事生成 -->
+        <div class="bg-white rounded-lg shadow-lg p-6">
+            <h2 class="text-xl font-bold mb-4">記事生成</h2>
+            
+            <form id="articleForm" class="space-y-4">
+                <div>
+                    <label class="block text-gray-700 text-sm font-bold mb-2">キーワード*</label>
+                    <input type="text" id="keyword" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-500" placeholder="例: AI 記事 生成" required>
+                </div>
+                
+                <div>
+                    <label class="block text-gray-700 text-sm font-bold mb-2">文字数</label>
+                    <select id="length" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-500">
+                        <option value="1000">1,000文字</option>
+                        <option value="1500" selected>1,500文字</option>
+                        <option value="2000">2,000文字</option>
+                        <option value="2500">2,500文字</option>
+                    </select>
+                </div>
+                
+                <div>
+                    <label class="block text-gray-700 text-sm font-bold mb-2">文体</label>
+                    <select id="tone" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-500">
+                        <option value="friendly" selected>親しみやすい</option>
+                        <option value="professional">専門的</option>
+                        <option value="casual">カジュアル</option>
+                    </select>
+                </div>
+                
+                <div class="flex items-center">
+                    <input type="checkbox" id="includeFaq" checked class="mr-2">
+                    <label for="includeFaq" class="text-gray-700 text-sm">FAQセクションを含める</label>
+                </div>
+                
+                <button type="submit" id="generateBtn" class="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition-colors font-semibold">
+                    記事を生成する
+                </button>
+            </form>
+            
+            <div id="generationStatus" class="mt-4 text-center text-gray-600 hidden">
+                <div class="animate-spin inline-block w-6 h-6 border-2 border-current border-t-transparent rounded-full mr-2"></div>
+                記事を生成中...（約30-60秒）
+            </div>
+        </div>
+        
+        <!-- キーワードリサーチ -->
+        <div class="bg-white rounded-lg shadow-lg p-6">
+            <h2 class="text-xl font-bold mb-4">トレンドキーワード</h2>
+            
+            <form id="keywordForm" class="space-y-4">
+                <div>
+                    <label class="block text-gray-700 text-sm font-bold mb-2">取得件数</label>
+                    <select id="keywordLimit" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-500">
+                        <option value="5">5件</option>
+                        <option value="10" selected>10件</option>
+                        <option value="20">20件</option>
+                    </select>
+                </div>
+                
+                <button type="submit" id="researchBtn" class="w-full bg-green-600 text-white py-3 rounded-lg hover:bg-green-700 transition-colors font-semibold">
+                    キーワードを調査
+                </button>
+            </form>
+            
+            <div id="keywordResults" class="mt-6 hidden">
+                <h3 class="font-semibold mb-3">トレンドキーワード</h3>
+                <div id="keywordList" class="space-y-2"></div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 生成された記事 -->
+    <div id="articleResult" class="bg-white rounded-lg shadow-lg p-6 mt-8 hidden">
+        <div class="flex justify-between items-center mb-4">
+            <h2 class="text-xl font-bold">生成された記事</h2>
+            <div class="space-x-2">
+                <button onclick="copyArticle()" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">コピー</button>
+                <button onclick="downloadArticle()" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">ダウンロード</button>
+            </div>
+        </div>
+        
+        <!-- 記事メタ情報 -->
+        <div class="bg-gray-50 rounded-lg p-4 mb-6">
+            <div class="grid md:grid-cols-4 gap-4 text-sm">
+                <div>
+                    <span class="font-semibold">文字数:</span>
+                    <span id="resultWordCount">-</span>
+                </div>
+                <div>
+                    <span class="font-semibold">キーワード密度:</span>
+                    <span id="resultKeywordDensity">-</span>%
+                </div>
+                <div>
+                    <span class="font-semibold">SEOスコア:</span>
+                    <span id="resultSeoScore">-</span>/100
+                </div>
+                <div>
+                    <span class="font-semibold">生成時間:</span>
+                    <span id="resultGenerationTime">-</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 記事タイトル -->
+        <div class="mb-4">
+            <label class="block text-gray-700 text-sm font-bold mb-2">タイトル</label>
+            <input type="text" id="resultTitle" class="w-full px-3 py-2 border rounded-lg bg-gray-50" readonly>
+        </div>
+        
+        <!-- メタディスクリプション -->
+        <div class="mb-4">
+            <label class="block text-gray-700 text-sm font-bold mb-2">メタディスクリプション</label>
+            <textarea id="resultMetaDescription" class="w-full px-3 py-2 border rounded-lg bg-gray-50 h-20" readonly></textarea>
+        </div>
+        
+        <!-- 記事本文 -->
+        <div class="mb-4">
+            <label class="block text-gray-700 text-sm font-bold mb-2">記事本文</label>
+            <textarea id="resultContent" class="w-full px-3 py-2 border rounded-lg bg-gray-50" rows="20" readonly></textarea>
+        </div>
+    </div>
+</div>
+
+<script>
+let apiKey = localStorage.getItem('apiKey');
+let currentUser = null;
+
+// 初期化
+document.addEventListener('DOMContentLoaded', function() {
+    if (!apiKey) {
+        window.location.href = '/';
+        return;
+    }
+    
+    loadUserStatus();
+});
+
+// ユーザー状況読み込み
+async function loadUserStatus() {
+    try {
+        const formData = new FormData();
+        formData.append('api_key', apiKey);
+        
+        const response = await fetch('/api/user/status', {
+            method: 'POST',
+            body: formData
+        });
+        
+        if (!response.ok) {
+            throw new Error('認証エラー');
+        }
+        
+        const user = await response.json();
+        currentUser = user;
+        
+        // UI更新
+        document.getElementById('userStatus').textContent = user.email;
+        document.getElementById('articlesUsed').textContent = user.articles_used;
+        document.getElementById('articlesRemaining').textContent = user.articles_limit - user.articles_used;
+        document.getElementById('currentPlan').textContent = user.plan_name;
+        
+        const usagePercent = Math.round((user.articles_used / user.articles_limit) * 100);
+        document.getElementById('usagePercent').textContent = usagePercent + '%';
+        document.getElementById('usageProgress').style.width = usagePercent + '%';
+        
+        // 制限チェック
+        if (user.articles_used >= user.articles_limit) {
+            document.getElementById('generateBtn').disabled = true;
+            document.getElementById('generateBtn').textContent = '月間制限に達しました';
+            document.getElementById('generateBtn').classList.add('bg-gray-400', 'cursor-not-allowed');
+        }
+        
+    } catch (error) {
+        console.error('ユーザー状況取得エラー:', error);
+        localStorage.removeItem('apiKey');
+        window.location.href = '/';
+    }
+}
+
+// 記事生成フォーム
+document.getElementById('articleForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    
+    const keyword = document.getElementById('keyword').value;
+    const length = parseInt(document.getElementById('length').value);
+    const tone = document.getElementById('tone').value;
+    const includeFaq = document.getElementById('includeFaq').checked;
+    
+    // UI状態変更
+    const generateBtn = document.getElementById('generateBtn');
+    const status = document.getElementById('generationStatus');
+    
+    generateBtn.disabled = true;
+    status.classList.remove('hidden');
+    
+    try {
+        const response = await fetch('/api/generate-article', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                keyword: keyword,
+                length: length,
+                tone: tone,
+                include_faq: includeFaq,
+                api_key: apiKey
+            })
+        });
+        
+        const result = await response.json();
+        
+        if (result.success) {
+            // 記事表示
+            displayArticle(result.article);
+            
+            // 使用状況更新
+            currentUser.articles_used = result.usage.articles_used;
+            updateUsageDisplay();
+            
+            alert('記事生成完了！');
+        } else {
+            alert('記事生成に失敗しました: ' + (result.detail || 'エラーが発生しました'));
+        }
+        
+    } catch (error) {
+        console.error('記事生成エラー:', error);
+        alert('記事生成中にエラーが発生しました: ' + error.message);
+    } finally {
+        generateBtn.disabled = false;
+        status.classList.add('hidden');
+    }
+});
+
+// キーワードリサーチフォーム
+document.getElementById('keywordForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    
+    const limit = parseInt(document.getElementById('keywordLimit').value);
+    const researchBtn = document.getElementById('researchBtn');
+    
+    researchBtn.disabled = true;
+    researchBtn.textContent = '調査中...';
+    
+    try {
+        const formData = new FormData();
+        formData.append('api_key', apiKey);
+        formData.append('limit', limit);
+        
+        const response = await fetch('/api/research-keywords', {
+            method: 'POST',
+            body: formData
+        });
+        
+        const result = await response.json();
+        
+        if (result.success) {
+            displayKeywords(result.keywords);
+        } else {
+            alert('キーワード取得に失敗しました: ' + (result.message || 'エラーが発生しました'));
+        }
+        
+    } catch (error) {
+        console.error('キーワード調査エラー:', error);
+        alert('キーワード調査中にエラーが発生しました: ' + error.message);
+    } finally {
+        researchBtn.disabled = false;
+        researchBtn.textContent = 'キーワードを調査';
+    }
+});
+
+// 記事表示
+function displayArticle(article) {
+    document.getElementById('resultTitle').value = article.title;
+    document.getElementById('resultMetaDescription').value = article.meta_description;
+    document.getElementById('resultContent').value = article.content;
+    document.getElementById('resultWordCount').textContent = article.word_count.toLocaleString();
+    document.getElementById('resultKeywordDensity').textContent = article.keyword_density.toFixed(2);
+    document.getElementById('resultSeoScore').textContent = article.seo_score.toFixed(1);
+    document.getElementById('resultGenerationTime').textContent = '生成完了';
+    
+    document.getElementById('articleResult').classList.remove('hidden');
+    document.getElementById('articleResult').scrollIntoView({ behavior: 'smooth' });
+}
+
+// キーワード表示
+function displayKeywords(keywords) {
+    const keywordList = document.getElementById('keywordList');
+    keywordList.innerHTML = '';
+    
+    keywords.forEach(kw => {
+        const div = document.createElement('div');
+        div.className = 'flex justify-between items-center p-3 border rounded-lg hover:bg-gray-50 cursor-pointer';
+        div.onclick = () => {
+            document.getElementById('keyword').value = kw.keyword;
+        };
+        
+        div.innerHTML = `
+            <div>
+                <div class="font-semibold">${kw.keyword}</div>
+                <div class="text-xs text-gray-500">関連: ${kw.related_keywords.join(', ')}</div>
+            </div>
+            <div class="text-right">
+                <div class="text-sm font-semibold text-blue-600">トレンド: ${kw.trend_score.toFixed(1)}</div>
+                <div class="text-xs text-gray-500">検索量: ${kw.search_volume || 'N/A'}</div>
+            </div>
+        `;
+        
+        keywordList.appendChild(div);
+    });
+    
+    document.getElementById('keywordResults').classList.remove('hidden');
+}
+
+// 使用状況表示更新
+function updateUsageDisplay() {
+    document.getElementById('articlesUsed').textContent = currentUser.articles_used;
+    document.getElementById('articlesRemaining').textContent = currentUser.articles_limit - currentUser.articles_used;
+    
+    const usagePercent = Math.round((currentUser.articles_used / currentUser.articles_limit) * 100);
+    document.getElementById('usagePercent').textContent = usagePercent + '%';
+    document.getElementById('usageProgress').style.width = usagePercent + '%';
+    
+    // 制限チェック
+    if (currentUser.articles_used >= currentUser.articles_limit) {
+        const generateBtn = document.getElementById('generateBtn');
+        generateBtn.disabled = true;
+        generateBtn.textContent = '月間制限に達しました';
+        generateBtn.classList.add('bg-gray-400', 'cursor-not-allowed');
+    }
+}
+
+// 記事コピー
+function copyArticle() {
+    const title = document.getElementById('resultTitle').value;
+    const content = document.getElementById('resultContent').value;
+    const meta = document.getElementById('resultMetaDescription').value;
+    
+    const fullArticle = `# ${title}\n\n${content}\n\n---\n\nメタディスクリプション: ${meta}`;
+    
+    navigator.clipboard.writeText(fullArticle).then(() => {
+        alert('記事をクリップボードにコピーしました！');
+    });
+}
+
+// 記事ダウンロード
+function downloadArticle() {
+    const title = document.getElementById('resultTitle').value;
+    const content = document.getElementById('resultContent').value;
+    const meta = document.getElementById('resultMetaDescription').value;
+    
+    const fullArticle = `# ${title}\n\n${content}\n\n---\n\nメタディスクリプション: ${meta}`;
+    
+    const blob = new Blob([fullArticle], { type: 'text/markdown' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${title.replace(/[^a-zA-Z0-9]/g, '_')}.md`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+}
+
+// ログアウト
+function logout() {
+    localStorage.removeItem('apiKey');
+    localStorage.removeItem('plan');
+    window.location.href = '/';
+}
+</script>
+
+</body>
+</html>

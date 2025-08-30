@@ -1,0 +1,17 @@
+{
+  "github": {
+    "repository": "daito-iwa/ai-article-generator",
+    "token": "YOUR_GITHUB_TOKEN",
+    "branch": "main"
+  },
+  "openai": {
+    "api_key": "YOUR_OPENAI_API_KEY",
+    "model": "gpt-4o-mini",
+    "temperature": 0.8
+  },
+  "posting": {
+    "daily_posts": 3,
+    "post_times": ["09:00", "14:00", "19:00"],
+    "categories": ["プログラミング", "AI・機械学習", "ビジネス", "投資・副業", "デザイン"]
+  }
+}

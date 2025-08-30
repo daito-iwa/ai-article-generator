@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  ai-article-generator:
+    build: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./data:/app/data
+      - ./output:/app/output
+      - ./logs:/app/logs
+      - ./config:/app/config
+    environment:
+      - PYTHONPATH=/app/src
+    restart: unless-stopped
+
+  # 将来的にPostgreSQL等のDBを追加する場合
+  # db:
+  #   image: postgres:13
+  #   environment:
+  #     POSTGRES_DB: ai_article_generator
+  #     POSTGRES_USER: user
+  #     POSTGRES_PASSWORD: password
+  #   volumes:
+  #     - postgres_data:/var/lib/postgresql/data
+  #   ports:
+  #     - "5432:5432"
+
+# volumes:
+#   postgres_data:

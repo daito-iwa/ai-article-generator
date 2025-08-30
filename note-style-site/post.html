@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>記事を投稿 - TechNote</title>
+    <meta name="description" content="TechNoteで記事を投稿。Markdownエディタで簡単に技術記事を作成・公開できます。">
+    <link rel="stylesheet" href="assets/style.css">
+    <link rel="stylesheet" href="assets/post.css">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <!-- CodeMirror for Markdown editing -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/theme/github.min.css">
+</head>
+<body>
+    <!-- ヘッダー -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <h1 class="logo">
+                    <a href="index.html">
+                        <i class="fas fa-code"></i>
+                        TechNote
+                    </a>
+                </h1>
+                
+                <nav class="nav">
+                    <a href="index.html#trending" class="nav-link">トレンド</a>
+                    <a href="index.html#latest" class="nav-link">新着</a>
+                    <a href="index.html#categories" class="nav-link">カテゴリ</a>
+                    <span class="nav-link post-btn active">
+                        <i class="fas fa-pen"></i>
+                        記事を書く
+                    </span>
+                </nav>
+                
+                <div class="header-actions">
+                    <button class="action-btn" id="save-draft">
+                        <i class="fas fa-save"></i>
+                        下書き保存
+                    </button>
+                    <button class="action-btn preview-btn" id="preview-toggle">
+                        <i class="fas fa-eye"></i>
+                        プレビュー
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- メインコンテンツ -->
+    <main class="main">
+        <div class="container">
+            <div class="post-layout">
+                <!-- 投稿フォーム -->
+                <div class="post-editor">
+                    <form id="article-form" class="article-form">
+                        <!-- 記事メタ情報 -->
+                        <div class="article-meta-form">
+                            <div class="form-group">
+                                <label for="article-title">記事タイトル</label>
+                                <input 
+                                    type="text" 
+                                    id="article-title" 
+                                    name="title" 
+                                    placeholder="記事のタイトルを入力してください"
+                                    maxlength="100"
+                                    required
+                                >
+                                <div class="char-count">
+                                    <span id="title-count">0</span>/100
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="article-summary">記事の概要</label>
+                                <textarea 
+                                    id="article-summary" 
+                                    name="summary"
+                                    rows="3"
+                                    placeholder="記事の概要を簡潔に説明してください（SEO最適化に重要）"
+                                    maxlength="160"
+                                ></textarea>
+                                <div class="char-count">
+                                    <span id="summary-count">0</span>/160
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="article-category">カテゴリ</label>
+                                    <select id="article-category" name="category" required>
+                                        <option value="">カテゴリを選択</option>
+                                        <option value="programming">プログラミング</option>
+                                        <option value="ai">AI・機械学習</option>
+                                        <option value="business">ビジネス</option>
+                                        <option value="design">デザイン</option>
+                                        <option value="lifestyle">ライフスタイル</option>
+                                        <option value="finance">投資・副業</option>
+                                        <option value="career">キャリア</option>
+                                        <option value="other">その他</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="article-tags">タグ</label>
+                                    <input 
+                                        type="text" 
+                                        id="article-tags" 
+                                        name="tags"
+                                        placeholder="タグをカンマ区切りで入力（例: Python, API, 自動化）"
+                                        maxlength="100"
+                                    >
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="author-name">著者名</label>
+                                <input 
+                                    type="text" 
+                                    id="author-name" 
+                                    name="author"
+                                    placeholder="あなたの名前（イニシャルでも可）"
+                                    maxlength="20"
+                                    required
+                                >
+                            </div>
+                        </div>
+
+                        <!-- エディタエリア -->
+                        <div class="editor-container">
+                            <div class="editor-header">
+                                <div class="editor-tabs">
+                                    <button type="button" class="editor-tab active" data-tab="editor">
+                                        <i class="fas fa-edit"></i>
+                                        エディタ
+                                    </button>
+                                    <button type="button" class="editor-tab" data-tab="preview">
+                                        <i class="fas fa-eye"></i>
+                                        プレビュー
+                                    </button>
+                                </div>
+                                
+                                <div class="editor-tools">
+                                    <button type="button" class="tool-btn" title="太字" data-action="bold">
+                                        <i class="fas fa-bold"></i>
+                                    </button>
+                                    <button type="button" class="tool-btn" title="斜体" data-action="italic">
+                                        <i class="fas fa-italic"></i>
+                                    </button>
+                                    <button type="button" class="tool-btn" title="見出し" data-action="heading">
+                                        <i class="fas fa-heading"></i>
+                                    </button>
+                                    <button type="button" class="tool-btn" title="リンク" data-action="link">
+                                        <i class="fas fa-link"></i>
+                                    </button>
+                                    <button type="button" class="tool-btn" title="画像" data-action="image">
+                                        <i class="fas fa-image"></i>
+                                    </button>
+                                    <button type="button" class="tool-btn" title="コード" data-action="code">
+                                        <i class="fas fa-code"></i>
+                                    </button>
+                                    <button type="button" class="tool-btn" title="リスト" data-action="list">
+                                        <i class="fas fa-list"></i>
+                                    </button>
+                                    <button type="button" class="tool-btn" title="引用" data-action="quote">
+                                        <i class="fas fa-quote-left"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="editor-content">
+                                <div class="editor-panel active" id="editor-panel">
+                                    <textarea 
+                                        id="markdown-editor" 
+                                        name="content"
+                                        placeholder="こちらにMarkdownで記事の内容を書いてください。
+
+# 見出し1
+## 見出し2
+### 見出し3
+
+**太字** *斜体* `コード`
+
+- リスト項目1
+- リスト項目2
+
+```javascript
+const example = 'コードブロック';
+console.log(example);
+```
+
+[リンクテキスト](https://example.com)
+![画像の説明](https://via.placeholder.com/300x200)
+
+> 引用文
+
+---
+
+記事を書いて、知識を共有しましょう！"
+                                        required
+                                    ></textarea>
+                                    <div class="editor-status">
+                                        <span>文字数: <span id="content-count">0</span></span>
+                                        <span>行数: <span id="line-count">1</span></span>
+                                    </div>
+                                </div>
+
+                                <div class="editor-panel" id="preview-panel">
+                                    <div class="preview-content" id="preview-content">
+                                        <p class="preview-placeholder">プレビューを表示するには、上記のタブから「プレビュー」を選択してください。</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 投稿オプション -->
+                        <div class="post-options">
+                            <div class="publish-options">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="allow-comments" name="allowComments" checked>
+                                    <span class="checkmark"></span>
+                                    コメントを許可する
+                                </label>
+                                
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="publish-immediately" name="publishImmediately" checked>
+                                    <span class="checkmark"></span>
+                                    すぐに公開する
+                                </label>
+                                
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="seo-optimize" name="seoOptimize" checked>
+                                    <span class="checkmark"></span>
+                                    SEO最適化を有効にする
+                                </label>
+                            </div>
+
+                            <div class="submit-actions">
+                                <button type="button" class="btn btn-secondary" id="save-draft-btn">
+                                    <i class="fas fa-save"></i>
+                                    下書き保存
+                                </button>
+                                <button type="submit" class="btn btn-primary" id="publish-btn">
+                                    <i class="fas fa-paper-plane"></i>
+                                    記事を公開
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- サイドバー -->
+                <aside class="post-sidebar">
+                    <!-- 投稿ガイド -->
+                    <div class="widget guide-widget">
+                        <h3>投稿のコツ</h3>
+                        <ul class="guide-list">
+                            <li>
+                                <i class="fas fa-lightbulb"></i>
+                                <strong>魅力的なタイトル</strong>
+                                <p>読者の興味を引く具体的なタイトルを心がけましょう</p>
+                            </li>
+                            <li>
+                                <i class="fas fa-search"></i>
+                                <strong>SEO最適化</strong>
+                                <p>記事の概要にキーワードを含めることでより多くの人に届きます</p>
+                            </li>
+                            <li>
+                                <i class="fas fa-tags"></i>
+                                <strong>適切なタグ</strong>
+                                <p>3-5個程度のタグで記事の内容を表現しましょう</p>
+                            </li>
+                            <li>
+                                <i class="fas fa-code"></i>
+                                <strong>コードの書き方</strong>
+                                <p>```言語名 でコードブロックを作成できます</p>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Markdownリファレンス -->
+                    <div class="widget markdown-widget">
+                        <h3>Markdownリファレンス</h3>
+                        <div class="markdown-examples">
+                            <div class="example">
+                                <h4>見出し</h4>
+                                <code># 大見出し<br>## 中見出し<br>### 小見出し</code>
+                            </div>
+                            <div class="example">
+                                <h4>テキスト装飾</h4>
+                                <code>**太字** *斜体*<br>`インラインコード`</code>
+                            </div>
+                            <div class="example">
+                                <h4>リンクと画像</h4>
+                                <code>[リンク](URL)<br>![画像](画像URL)</code>
+                            </div>
+                            <div class="example">
+                                <h4>リスト</h4>
+                                <code>- 項目1<br>- 項目2<br>1. 番号付き</code>
+                            </div>
+                            <div class="example">
+                                <h4>コードブロック</h4>
+                                <code>```javascript<br>console.log('Hello');<br>```</code>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 最近の投稿 -->
+                    <div class="widget recent-widget">
+                        <h3>最近の投稿</h3>
+                        <div class="recent-articles">
+                            <a href="#" class="recent-article">
+                                <h4>ChatGPT APIを使った自動記事生成システム</h4>
+                                <span class="recent-date">3時間前</span>
+                            </a>
+                            <a href="#" class="recent-article">
+                                <h4>副業ブログで月10万円達成した方法</h4>
+                                <span class="recent-date">1日前</span>
+                            </a>
+                            <a href="#" class="recent-article">
+                                <h4>GitHub Pages + AI自動化で収益サイト</h4>
+                                <span class="recent-date">2日前</span>
+                            </a>
+                        </div>
+                    </div>
+                </aside>
+            </div>
+        </div>
+    </main>
+
+    <!-- フッター -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>TechNote</h4>
+                    <p>知識を共有し、学び合うコミュニティプラットフォーム</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>コンテンツ</h4>
+                    <ul>
+                        <li><a href="index.html">記事一覧</a></li>
+                        <li><a href="post.html">記事を書く</a></li>
+                        <li><a href="#">利用規約</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2024 TechNote. Powered by GitHub Pages + AI</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/markdown/markdown.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/4.3.0/marked.min.js"></script>
+    <script src="assets/post.js"></script>
+</body>
+</html>

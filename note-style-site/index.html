@@ -29,7 +29,7 @@
                     <a href="#trending" class="nav-link">トレンド</a>
                     <a href="#latest" class="nav-link">新着</a>
                     <a href="#categories" class="nav-link">カテゴリ</a>
-                    <a href="./post.html" class="nav-link post-btn">
+                    <a href="post.html" class="nav-link post-btn">
                         <i class="fas fa-pen"></i>
                         記事を書く
                     </a>
@@ -48,6 +48,27 @@
     <!-- メインコンテンツ -->
     <main class="main">
         <div class="container">
+            <!-- ヒーロセクション -->
+            <section class="hero">
+                <div class="hero-content">
+                    <h2>知識を共有し、学び合うコミュニティ</h2>
+                    <p>エンジニア・クリエイター・ビジネスパーソンが最新情報と知見を投稿。AI生成記事とユーザー投稿で、毎日新しい発見があります。</p>
+                    <div class="hero-stats">
+                        <div class="stat-item">
+                            <span class="stat-number" id="total-articles">1,247</span>
+                            <span class="stat-label">記事数</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number" id="total-users">389</span>
+                            <span class="stat-label">投稿者</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number" id="daily-views">15.2k</span>
+                            <span class="stat-label">日間PV</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
 
             <!-- AdSense 広告 -->
             <div class="ad-banner">
@@ -101,7 +122,7 @@
                                             <span class="publish-date">3時間前</span>
                                         </div>
                                         <h3 class="article-title">
-                                            <a href="./article.html?id=1">ChatGPT APIを使った自動記事生成システムを構築してみた</a>
+                                            <a href="article.html?id=1">ChatGPT APIを使った自動記事生成システムを構築してみた</a>
                                         </h3>
                                         <p class="article-excerpt">
                                             OpenAI APIを使って記事を自動生成するシステムを作成しました。プロンプトエンジニアリングのコツと実装方法を詳しく解説します...
@@ -141,7 +162,7 @@
                                             <span class="publish-date">5時間前</span>
                                         </div>
                                         <h3 class="article-title">
-                                            <a href="./article.html?id=2">副業ブログで月10万円達成した完全ロードマップ</a>
+                                            <a href="article.html?id=2">副業ブログで月10万円達成した完全ロードマップ</a>
                                         </h3>
                                         <p class="article-excerpt">
                                             ブログ未経験から始めて6ヶ月で月10万円の収益化に成功。実際の収益推移と具体的な施策を全て公開します...
@@ -181,7 +202,7 @@
                                             <span class="publish-date">1日前</span>
                                         </div>
                                         <h3 class="article-title">
-                                            <a href="./article.html?id=3">GitHub Pages + AI自動化で作る無料収益サイト</a>
+                                            <a href="article.html?id=3">GitHub Pages + AI自動化で作る無料収益サイト</a>
                                         </h3>
                                         <p class="article-excerpt">
                                             完全無料でプロ級のWebサイトを構築し、AI自動化で収益化する方法を解説。初期費用0円から月収50万円を目指すテクニック...
@@ -259,7 +280,7 @@
                     <div class="widget cta-widget">
                         <h3>記事を投稿しよう</h3>
                         <p>あなたの知識と経験をシェアしませんか？</p>
-                        <a href="./post.html" class="cta-btn">
+                        <a href="post.html" class="cta-btn">
                             <i class="fas fa-pen"></i>
                             今すぐ書く
                         </a>
@@ -380,7 +401,7 @@
                 <div class="footer-section">
                     <h4>コミュニティ</h4>
                     <ul>
-                        <li><a href="./post.html">記事を書く</a></li>
+                        <li><a href="post.html">記事を書く</a></li>
                         <li><a href="#">投稿ガイドライン</a></li>
                         <li><a href="#">利用規約</a></li>
                         <li><a href="#">プライバシーポリシー</a></li>
@@ -402,7 +423,6 @@
 
     <!-- JavaScript -->
     <script src="assets/app.js"></script>
-    <script src="assets/articles-loader.js"></script>
     
     <!-- AdSense自動広告 -->
     <script>

@@ -1,0 +1,57 @@
+{
+  "article_generation": {
+    "default_min_length": 1500,
+    "default_max_length": 2500,
+    "target_keyword_density": 2.5,
+    "default_model": "gpt-4",
+    "temperature": 0.7,
+    "max_tokens": 3000,
+    "language": "ja",
+    "tone": "friendly"
+  },
+  "seo_optimization": {
+    "title_max_length": 60,
+    "meta_description_max_length": 160,
+    "optimal_keyword_density_min": 1.0,
+    "optimal_keyword_density_max": 3.0,
+    "min_headings": 3,
+    "max_headings": 6,
+    "min_word_count": 300,
+    "recommended_word_count": 1500
+  },
+  "publishing": {
+    "default_status": "draft",
+    "allow_comments": true,
+    "default_author_id": 1,
+    "upload_images": true,
+    "image_width": 1200,
+    "image_height": 800,
+    "retry_attempts": 3,
+    "retry_delay": 5
+  },
+  "keyword_research": {
+    "default_limit": 10,
+    "default_timeframe": "now 7-d",
+    "api_delay": 2,
+    "geo_location": "JP",
+    "language": "ja-JP"
+  },
+  "scheduling": {
+    "daily_generation_time": "09:00",
+    "weekly_keyword_research": "Monday",
+    "max_articles_per_day": 3,
+    "publish_delay_minutes": 30
+  },
+  "logging": {
+    "level": "INFO",
+    "max_file_size": "10MB",
+    "backup_count": 5,
+    "format": "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  },
+  "rate_limiting": {
+    "openai_requests_per_minute": 20,
+    "google_trends_requests_per_minute": 10,
+    "wordpress_requests_per_minute": 60,
+    "unsplash_requests_per_hour": 50
+  }
+}

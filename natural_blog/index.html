@@ -1,0 +1,197 @@
+
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>山田太郎のテックブログ</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            line-height: 1.6; color: #333; background: #f8f9fa;
+        }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        
+        /* ヘッダー */
+        .header { background: white; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        .nav { padding: 20px 0; display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 1.8em; font-weight: bold; color: #2c3e50; }
+        .nav-menu { display: flex; list-style: none; }
+        .nav-menu li { margin-left: 30px; }
+        .nav-menu a { text-decoration: none; color: #666; transition: color 0.3s; }
+        .nav-menu a:hover { color: #3498db; }
+        
+        /* メインコンテンツ */
+        .main { padding: 40px 0; }
+        .article-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 40px; }
+        
+        /* 記事リスト */
+        .article-list { }
+        .article-card { 
+            background: white; border-radius: 10px; overflow: hidden; 
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1); margin-bottom: 30px;
+            transition: transform 0.3s ease;
+        }
+        .article-card:hover { transform: translateY(-5px); }
+        .article-image { width: 100%; height: 200px; background: #ddd; }
+        .article-body { padding: 25px; }
+        .article-meta { 
+            display: flex; align-items: center; color: #666; font-size: 0.9em; 
+            margin-bottom: 15px;
+        }
+        .author-avatar { 
+            width: 30px; height: 30px; border-radius: 50%; 
+            background: #3498db; margin-right: 10px;
+        }
+        .article-title { 
+            font-size: 1.4em; font-weight: bold; margin-bottom: 15px;
+            color: #2c3e50;
+        }
+        .article-title a { text-decoration: none; color: inherit; }
+        .article-title a:hover { color: #3498db; }
+        .article-excerpt { color: #666; margin-bottom: 15px; }
+        .article-tags { }
+        .tag { 
+            display: inline-block; background: #ecf0f1; padding: 4px 8px; 
+            border-radius: 4px; font-size: 0.8em; color: #555; margin-right: 8px;
+        }
+        
+        /* サイドバー */
+        .sidebar { }
+        .widget { 
+            background: white; border-radius: 10px; padding: 25px; 
+            margin-bottom: 30px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .widget h3 { margin-bottom: 20px; color: #2c3e50; }
+        .widget ul { list-style: none; }
+        .widget li { margin-bottom: 10px; }
+        .widget a { text-decoration: none; color: #666; }
+        .widget a:hover { color: #3498db; }
+        
+        /* プロフィール */
+        .profile-avatar { 
+            width: 80px; height: 80px; border-radius: 50%; 
+            background: #3498db; margin: 0 auto 15px; display: block;
+        }
+        .profile-name { text-align: center; font-weight: bold; margin-bottom: 10px; }
+        .profile-bio { text-align: center; color: #666; font-size: 0.9em; }
+        
+        /* フッター */
+        .footer { 
+            background: #2c3e50; color: white; text-align: center; 
+            padding: 40px 0; margin-top: 60px;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <nav class="nav">
+                <div class="logo">山田太郎のブログ</div>
+                <ul class="nav-menu">
+                    <li><a href="#home">ホーム</a></li>
+                    <li><a href="#about">プロフィール</a></li>
+                    <li><a href="#contact">お問い合わせ</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    
+    <main class="main">
+        <div class="container">
+            <div class="article-grid">
+                <div class="article-list">
+        <article class="article-card">
+            <div class="article-image"></div>
+            <div class="article-body">
+                <div class="article-meta">
+                    <div class="author-avatar"></div>
+                    <span>山田太郎 • 2024年8月25日 • 5分で読める</span>
+                </div>
+                <h2 class="article-title">
+                    <a href="#article-1">【実体験】プログラミングで副業月10万達成した方法</a>
+                </h2>
+                <p class="article-excerpt">プログラミング未経験から始めて、3ヶ月で副業月10万円を達成した実体験をシェアします。</p>
+                <div class="article-tags"><span class="tag"># プログラミング</span><span class="tag"># 副業</span><span class="tag"># 実体験</span></div>
+            </div>
+        </article>
+        
+        <article class="article-card">
+            <div class="article-image"></div>
+            <div class="article-body">
+                <div class="article-meta">
+                    <div class="author-avatar"></div>
+                    <span>山田太郎 • 2024年8月20日 • 7分で読める</span>
+                </div>
+                <h2 class="article-title">
+                    <a href="#article-2">AI技術の最新動向｜2024年注目のサービス3選</a>
+                </h2>
+                <p class="article-excerpt">今年注目のAI技術と実用的なサービスを、エンジニア目線で解説します。</p>
+                <div class="article-tags"><span class="tag"># AI</span><span class="tag"># 技術解説</span><span class="tag"># 最新情報</span></div>
+            </div>
+        </article>
+        
+                    
+                    <article class="article-card">
+                        <div class="article-image"></div>
+                        <div class="article-body">
+                            <div class="article-meta">
+                                <div class="author-avatar"></div>
+                                <span>{{ article.author_name }} • {{ article.published_at }} • {{ article.reading_time }}分で読める</span>
+                            </div>
+                            <h2 class="article-title">
+                                <a href="#article-{{ article.id }}">{{ article.title }}</a>
+                            </h2>
+                            <p class="article-excerpt">{{ article.excerpt }}</p>
+                            <div class="article-tags">
+                                {% for tag in article.tags %}
+                                <span class="tag"># {{ tag }}</span>
+                                
+                            </div>
+                        </div>
+                    </article>
+                    
+                </div>
+                
+                <aside class="sidebar">
+                    <!-- プロフィール -->
+                    <div class="widget">
+                        <h3>プロフィール</h3>
+                        <div class="profile-avatar"></div>
+                        <div class="profile-name">山田太郎</div>
+                        <div class="profile-bio">フリーランスエンジニア。プログラミングとAI技術について発信しています。</div>
+                    </div>
+                    
+                    <!-- 人気記事 -->
+                    <div class="widget">
+                        <h3>人気の記事</h3>
+                        <ul>
+                            <li><a href="#">プログラミング学習のコツ</a></li>
+                            <li><a href="#">副業で月10万円稼ぐ方法</a></li>
+                            <li><a href="#">投資初心者が知るべきこと</a></li>
+                        </ul>
+                    </div>
+                    
+                    <!-- カテゴリー -->
+                    <div class="widget">
+                        <h3>カテゴリー</h3>
+                        <ul>
+                            
+                            <li><a href="#">{{ category }}</a></li>
+                            
+                        </ul>
+                    </div>
+                </aside>
+            </div>
+        </div>
+    </main>
+    
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 山田太郎のブログ. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>
+    

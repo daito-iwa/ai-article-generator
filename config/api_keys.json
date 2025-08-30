@@ -1,0 +1,16 @@
+{
+  "openai_api_key": "your-openai-api-key",
+  "anthropic_api_key": "your-anthropic-api-key",
+  "google_api_key": "your-google-api-key",
+  "unsplash_access_key": "your-unsplash-access-key",
+  "wordpress": {
+    "url": "https://your-wordpress-site.com",
+    "username": "your-username",
+    "password": "your-application-password"
+  },
+  "google_trends": {
+    "language": "ja-JP",
+    "geo": "JP",
+    "timezone": 540
+  }
+}
