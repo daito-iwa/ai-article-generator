@@ -34,16 +34,38 @@ class OllamaAutoPostSystem:
         # Ollamaが起動しているか確認
         self.check_ollama()
         
-        # トレンドキーワード（固定リスト + ランダム選択）
-        self.trend_keywords = [
-            "AI活用", "ChatGPT", "プログラミング学習", "Python", "JavaScript",
-            "リモートワーク", "副業", "投資", "仮想通貨", "NFT",
-            "Web3", "メタバース", "DX", "ノーコード", "自動化",
-            "機械学習", "ディープラーニング", "ブロックチェーン", "IoT", "5G",
-            "サイバーセキュリティ", "クラウド", "Docker", "Kubernetes", "React",
-            "Vue.js", "Next.js", "TypeScript", "Go言語", "Rust",
-            "データサイエンス", "ビッグデータ", "量子コンピュータ", "AR/VR", "ゲーム開発"
-        ]
+        # 超大規模トレンドキーワード（全ジャンル対応）
+        self.trend_keywords = {
+            "エンタメ": [
+                "芸能ニュース", "映画レビュー", "音楽トレンド", "アニメ", "ドラマ", "バラエティ",
+                "YouTube", "TikTok", "インスタ映え", "アイドル", "K-POP", "Netflix",
+                "ゲーム実況", "漫画", "小説", "舞台", "コンサート", "フェス"
+            ],
+            "ライフスタイル": [
+                "健康管理", "ダイエット", "美容", "スキンケア", "ファッション", "料理レシピ",
+                "旅行", "グルメ", "カフェ", "インテリア", "ガーデニング", "ペット",
+                "子育て", "教育", "習い事", "趣味", "読書", "写真撮影"
+            ],
+            "ビジネス": [
+                "副業", "転職", "起業", "投資", "株式", "仮想通貨", "不動産",
+                "マーケティング", "営業", "リーダーシップ", "時間管理", "生産性向上",
+                "リモートワーク", "フリーランス", "資格取得", "スキルアップ"
+            ],
+            "テクノロジー": [
+                "AI", "ChatGPT", "プログラミング", "Python", "JavaScript", "React",
+                "機械学習", "ブロックチェーン", "メタバース", "AR/VR", "IoT", "5G",
+                "クラウド", "セキュリティ", "アプリ開発", "ウェブデザイン", "ガジェット"
+            ],
+            "社会・時事": [
+                "政治", "経済", "環境問題", "社会問題", "国際情勢", "地域活性化",
+                "SDGs", "働き方改革", "少子高齢化", "災害対策", "医療", "科学技術"
+            ],
+            "季節・イベント": [
+                "春", "夏", "秋", "冬", "お正月", "バレンタイン", "ホワイトデー",
+                "桜", "ゴールデンウィーク", "梅雨", "夏祭り", "お盆", "ハロウィン",
+                "クリスマス", "年末年始", "入学式", "卒業式", "母の日", "父の日"
+            ]
+        }
         
         # ペルソナ定義（匿名化済み）
         self.personas = {
@@ -60,8 +82,16 @@ class OllamaAutoPostSystem:
                 "role": "ライフスタイル",
                 "avatar": "MY",
                 "style": "親しみやすく、実体験を交えた内容",
-                "topics": ["副業", "ライフハック", "健康", "トレンド"],
+                "topics": ["美容", "健康", "料理", "ファッション", "旅行", "グルメ"],
                 "tone": "カジュアルで共感的"
+            },
+            "entertainment_writer": {
+                "name": "E.R",
+                "role": "エンタメ",
+                "avatar": "ER",
+                "style": "熱量があり、最新トレンドを詳しく解説",
+                "topics": ["映画", "音楽", "アニメ", "ドラマ", "芸能", "ゲーム"],
+                "tone": "エネルギッシュで親近感がある"
             },
             "business_consultant": {
                 "name": "S.J",
@@ -129,22 +159,33 @@ class OllamaAutoPostSystem:
             logging.error(f"モデルのインストールに失敗しました: {e}")
     
     def get_trending_topics(self) -> list:
-        """トレンドトピックを取得（固定リストからランダム選択）"""
-        # ランダムに5つ選択
-        selected = random.sample(self.trend_keywords, 5)
+        """トレンドトピックを取得（全ジャンルからランダム選択）"""
+        # 全ジャンルから合計10個選択
+        all_topics = []
+        for genre, topics in self.trend_keywords.items():
+            all_topics.extend([(topic, genre) for topic in topics])
         
-        # 時期に応じた季節トピックを追加
+        # ランダムに10個選択
+        selected = random.sample(all_topics, min(10, len(all_topics)))
+        
+        # 時期に応じた季節トピックを優先追加
         month = datetime.now().month
-        if month in [12, 1, 2]:
-            selected.append("冬の節電対策")
-        elif month in [3, 4, 5]:
-            selected.append("新生活準備")
-        elif month in [6, 7, 8]:
-            selected.append("夏の在宅ワーク")
-        else:
-            selected.append("秋の学習計画")
+        seasonal_topics = []
         
-        logging.info(f"本日のトピック: {selected}")
+        if month in [12, 1, 2]:  # 冬
+            seasonal_topics = [("冬のファッション", "ライフスタイル"), ("お正月料理", "ライフスタイル")]
+        elif month in [3, 4, 5]:  # 春
+            seasonal_topics = [("桜スポット", "ライフスタイル"), ("新生活", "ライフスタイル")]
+        elif month in [6, 7, 8]:  # 夏
+            seasonal_topics = [("夏祭り", "季節・イベント"), ("夏バテ対策", "ライフスタイル")]
+        elif month in [9, 10, 11]:  # 秋
+            seasonal_topics = [("紅葉スポット", "ライフスタイル"), ("ハロウィン", "季節・イベント")]
+        
+        # 季節トピックがあれば優先して追加
+        for topic, genre in seasonal_topics:
+            if len(selected) < 10:
+                selected.append((topic, genre))
+        
         return selected
     
     def select_persona(self, topic: str) -> dict:
@@ -371,40 +412,99 @@ class OllamaAutoPostSystem:
         self.post_article()
     
     def run_continuous(self):
-        """継続的に実行（3時間ごと）"""
-        logging.info("自動投稿を開始します（3時間ごと）")
+        """継続的に実行（1日3回：朝・昼・夜）"""
+        logging.info("自動投稿を開始します（1日3回：8:00/14:00/20:00）")
         
-        # 初回実行
+        # スケジュール設定
+        schedule.clear()  # 既存のスケジュールをクリア
+        
+        # 1日3回の投稿スケジュール
+        schedule.every().day.at("08:00").do(self.post_article)  # 朝
+        schedule.every().day.at("14:00").do(self.post_article)  # 昼
+        schedule.every().day.at("20:00").do(self.post_article)  # 夜
+        
+        logging.info("📅 投稿スケジュール設定完了:")
+        logging.info("   - 朝: 8:00")
+        logging.info("   - 昼: 14:00") 
+        logging.info("   - 夜: 20:00")
+        
+        # 初回実行（即座に投稿）
+        logging.info("初回記事を投稿します...")
         self.post_article()
         
-        # 3時間ごとに実行
+        # スケジュール実行
         while True:
-            time.sleep(3 * 60 * 60)  # 3時間待機
+            schedule.run_pending()
+            time.sleep(60)  # 1分ごとにスケジュールチェック
+    
+    def run_daily_burst(self):
+        """1日限定で大量投稿（SEOブースト用）"""
+        logging.info("🚀 1日限定大量投稿モード（SEOブースト）")
+        logging.info("📊 2時間ごとに投稿（計12記事/日）")
+        
+        post_count = 0
+        max_posts = 12
+        
+        while post_count < max_posts:
+            logging.info(f"📝 投稿 {post_count + 1}/{max_posts}")
             self.post_article()
+            post_count += 1
+            
+            if post_count < max_posts:
+                logging.info("⏰ 2時間待機中...")
+                time.sleep(2 * 60 * 60)  # 2時間待機
+        
+        logging.info("✅ 1日限定大量投稿完了！")
 
 
 def main():
     """メイン関数"""
     print("""
 ╔══════════════════════════════════════════╗
-║     Ollama 自動投稿システム               ║
-║     完全無料でAI記事を自動投稿            ║
+║     ViralHub 自動投稿システム 2024       ║
+║     SEO最適化でアクセス爆増！            ║
 ╚══════════════════════════════════════════╝
     """)
     
-    # システム初期化
-    auto_post = OllamaAutoPostSystem()
-    
-    print("\n自動投稿を開始します...")
-    print("停止するには Ctrl+C を押してください\n")
+    print("🎯 モードを選択してください:")
+    print("1️⃣  通常モード（1日3回投稿）")
+    print("2️⃣  SEOブーストモード（1日12記事）") 
+    print("3️⃣  テスト（1記事のみ）")
     
     try:
-        # 継続的に実行（3時間ごと）
-        auto_post.run_continuous()
+        mode = input("\n番号を入力 (1-3): ").strip()
+        
+        # システム初期化
+        auto_post = OllamaAutoPostSystem()
+        
+        if mode == "1":
+            print("\n🎯 通常モード開始（1日3回投稿）")
+            print("⏰ 投稿時間: 8:00/14:00/20:00")
+            print("📊 月間約90記事でSEO強化！")
+            print("停止するには Ctrl+C を押してください\n")
+            auto_post.run_continuous()
+            
+        elif mode == "2":
+            print("\n🚀 SEOブーストモード開始！")
+            print("⚡ 2時間ごとに投稿（1日12記事）")
+            print("📈 検索上位獲得を目指します！")
+            print("停止するには Ctrl+C を押してください\n")
+            auto_post.run_daily_burst()
+            
+        elif mode == "3":
+            print("\n🧪 テストモード（1記事のみ）")
+            auto_post.run_once()
+            print("✅ テスト完了！")
+            
+        else:
+            print("❌ 無効な選択です。1-3の番号を入力してください。")
+            
     except KeyboardInterrupt:
-        print("\n\n自動投稿を停止しました")
+        print("\n\n⏹️  自動投稿を停止しました。")
+        print("📊 ViralHubで記事をチェック: https://daito-iwa.github.io/ai-article-generator/")
     except Exception as e:
         logging.error(f"エラーが発生しました: {e}")
+        print(f"\n❌ エラー: {e}")
 
 
 if __name__ == "__main__":

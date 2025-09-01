@@ -1,6 +1,7 @@
 #!/bin/bash
 
-echo "🤖 Ollama自動投稿システムを起動します..."
+echo "🚀 ViralHub 自動投稿システム 2024"
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 echo ""
 
 # Ollamaが起動しているか確認
@@ -20,16 +21,19 @@ fi
 echo ""
 echo "✅ 準備完了！"
 echo ""
-echo "🚀 自動投稿を開始します"
-echo "   - 3時間ごとに自動投稿"
-echo "   - 完全無料（Ollama使用）"
-echo "   - 停止: Ctrl+C"
+echo "🎯 新機能:"
+echo "   ✨ 全ジャンル対応（エンタメ・ライフスタイル・ビジネス等）"
+echo "   🕐 1日3回投稿（朝・昼・夜）"
+echo "   🚀 SEOブーストモード（1日12記事）"
+echo "   📊 月間90記事で検索上位獲得"
+echo "   💰 完全無料（Ollama使用）"
 echo ""
-echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 echo ""
 
 # 仮想環境があれば有効化
 if [ -d "venv" ]; then
+    echo "🐍 仮想環境を有効化中..."
     source venv/bin/activate
 fi
 
