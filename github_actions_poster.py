@@ -11,7 +11,7 @@ import time
 from datetime import datetime
 import logging
 
-# ログ設定
+# ログ設定 - Pythonのloggingモジュールは標準ライブラリなのでインストール不要
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 class GitHubActionsAutoPostSystem:
