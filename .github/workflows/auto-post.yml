@@ -10,6 +10,9 @@ on:
   # 手動実行も可能
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   auto-post:
     runs-on: ubuntu-latest
