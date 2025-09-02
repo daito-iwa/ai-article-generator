@@ -63,13 +63,13 @@
                 <div class="main-content">
                     <!-- タブナビゲーション -->
                     <div class="tab-nav">
-                        <button class="tab-btn active" data-tab="trending">
-                            <i class="fas fa-fire"></i>
-                            トレンド
-                        </button>
-                        <button class="tab-btn" data-tab="latest">
+                        <button class="tab-btn active" data-tab="latest">
                             <i class="fas fa-clock"></i>
                             新着
+                        </button>
+                        <button class="tab-btn" data-tab="trending">
+                            <i class="fas fa-fire"></i>
+                            トレンド
                         </button>
                         <button class="tab-btn" data-tab="popular">
                             <i class="fas fa-star"></i>
@@ -83,19 +83,19 @@
 
                     <!-- 記事リスト -->
                     <div class="articles-container">
-                        <!-- トレンド記事 (動的読み込み) -->
-                        <div id="trending" class="tab-content active">
-                            <div class="loading">
-                                <i class="fas fa-spinner fa-spin"></i>
-                                記事を読み込み中...
-                            </div>
-                        </div>
-
-                        <!-- 他のタブコンテンツは動的に読み込み -->
-                        <div id="latest" class="tab-content">
+                        <!-- 新着記事 (デフォルト表示) -->
+                        <div id="latest" class="tab-content active">
                             <div class="loading">
                                 <i class="fas fa-spinner fa-spin"></i>
                                 新着記事を読み込み中...
+                            </div>
+                        </div>
+
+                        <!-- トレンド記事 -->
+                        <div id="trending" class="tab-content">
+                            <div class="loading">
+                                <i class="fas fa-spinner fa-spin"></i>
+                                トレンド記事を読み込み中...
                             </div>
                         </div>
 

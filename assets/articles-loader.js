@@ -76,14 +76,16 @@ class ArticlesLoader {
     }
 
     displayArticles() {
-        // トレンド記事を更新
+        // 新着記事を更新（メイン）
+        this.updateLatestArticles();
+        
+        // トレンド記事を更新（エンゲージメントベース）
         this.updateTrendingArticles();
         
         // ランキングリストを更新
         this.updateRankingList();
         
         // その他のタブも更新
-        this.updateLatestArticles();
         this.updatePopularArticles();
         this.updateAIArticles();
     }
@@ -95,28 +97,52 @@ class ArticlesLoader {
         if (this.articlesData.length === 0) {
             container.innerHTML = `
                 <div class="empty-state">
-                    <i class="fas fa-newspaper" style="font-size: 3em; color: #ccc; margin-bottom: 20px;"></i>
-                    <h3>記事がまだありません</h3>
-                    <p>新しい記事をお待ちください。</p>
+                    <i class="fas fa-fire" style="font-size: 3em; color: #ccc; margin-bottom: 20px;"></i>
+                    <h3>トレンド記事がありません</h3>
+                    <p>記事のエンゲージメントが蓄積されるとトレンドが表示されます。</p>
                 </div>
             `;
         } else {
-            // ページング処理
-            const startIndex = (this.currentPage - 1) * this.articlesPerPage;
-            const endIndex = startIndex + this.articlesPerPage;
-            const currentArticles = this.articlesData.slice(startIndex, endIndex);
+            // エンゲージメントスコアでソート（views + likes * 3 + comments * 5）
+            const trendingArticles = [...this.articlesData]
+                .map(article => ({
+                    ...article,
+                    engagementScore: (article.views || 0) + (article.likes || 0) * 3 + (article.comments || 0) * 5
+                }))
+                .sort((a, b) => {
+                    // エンゲージメントスコアが同じ場合は新しい記事を優先
+                    if (b.engagementScore === a.engagementScore) {
+                        return new Date(b.publish_date) - new Date(a.publish_date);
+                    }
+                    return b.engagementScore - a.engagementScore;
+                })
+                .filter(article => article.engagementScore > 0 || this.articlesData.length <= 5); // 記事が少ない場合は全て表示
             
-            // 実在する記事を表示
-            const html = currentArticles.map(article => this.createArticleCard(article)).join('');
-            
-            // ページネーションを追加
-            const totalPages = Math.ceil(this.articlesData.length / this.articlesPerPage);
-            const paginationHtml = this.createPagination(totalPages);
-            
-            container.innerHTML = `
-                <div class="articles-list">${html}</div>
-                ${paginationHtml}
-            `;
+            if (trendingArticles.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-fire" style="font-size: 3em; color: #ccc; margin-bottom: 20px;"></i>
+                        <h3>トレンド記事を準備中</h3>
+                        <p>記事への反応（いいね・コメント・ビュー）が増えるとトレンドとして表示されます。</p>
+                    </div>
+                `;
+            } else {
+                // ページング処理
+                const startIndex = (this.currentPage - 1) * this.articlesPerPage;
+                const endIndex = startIndex + this.articlesPerPage;
+                const currentArticles = trendingArticles.slice(startIndex, endIndex);
+                
+                const html = currentArticles.map(article => this.createArticleCard(article)).join('');
+                
+                // ページネーションを追加
+                const totalPages = Math.ceil(trendingArticles.length / this.articlesPerPage);
+                const paginationHtml = this.createPagination(totalPages);
+                
+                container.innerHTML = `
+                    <div class="articles-list">${html}</div>
+                    ${paginationHtml}
+                `;
+            }
         }
     }
 
@@ -186,11 +212,36 @@ class ArticlesLoader {
                 </div>
             `;
         } else {
-            // ビュー数でソート（現在は全て0なので投稿日順）
+            // エンゲージメント（ビュー数・いいね・コメント）でソート
             const popularArticles = [...this.articlesData]
-                .sort((a, b) => new Date(b.publish_date) - new Date(a.publish_date));
-            const html = popularArticles.map(article => this.createArticleCard(article)).join('');
-            container.innerHTML = `<div class="articles-list">${html}</div>`;
+                .sort((a, b) => {
+                    const scoreA = (a.views || 0) + (a.likes || 0) * 2 + (a.comments || 0) * 3;
+                    const scoreB = (b.views || 0) + (b.likes || 0) * 2 + (b.comments || 0) * 3;
+                    
+                    // スコアが同じ場合は投稿日順
+                    if (scoreB === scoreA) {
+                        return new Date(b.publish_date) - new Date(a.publish_date);
+                    }
+                    return scoreB - scoreA;
+                })
+                .filter(article => {
+                    // エンゲージメントがある記事のみ、または記事が少ない場合は全て表示
+                    const score = (article.views || 0) + (article.likes || 0) + (article.comments || 0);
+                    return score > 0 || this.articlesData.length <= 5;
+                });
+            
+            if (popularArticles.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-star" style="font-size: 3em; color: #ccc; margin-bottom: 20px;"></i>
+                        <h3>人気記事を準備中</h3>
+                        <p>記事へのいいねやコメントが増えると人気記事として表示されます。</p>
+                    </div>
+                `;
+            } else {
+                const html = popularArticles.map(article => this.createArticleCard(article)).join('');
+                container.innerHTML = `<div class="articles-list">${html}</div>`;
+            }
         }
     }
 
