@@ -161,7 +161,15 @@ class ArticlesLoader {
             const latestArticles = [...this.articlesData]
                 .sort((a, b) => new Date(b.publish_date) - new Date(a.publish_date));
             const html = latestArticles.map(article => this.createArticleCard(article)).join('');
-            container.innerHTML = `<div class="articles-list">${html}</div>`;
+            container.innerHTML = `
+                <div class="articles-list">${html}</div>
+                <div class="articles-info">
+                    <p style="text-align: center; color: #666; margin-top: 30px;">
+                        現在${this.articlesData.length}件の記事があります。<br>
+                        毎日17:00、23:00、翌朝5:00に新記事が自動投稿されます！
+                    </p>
+                </div>
+            `;
         }
     }
 
