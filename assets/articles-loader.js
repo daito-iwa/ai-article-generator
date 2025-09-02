@@ -30,9 +30,25 @@ class ArticlesLoader {
                 // デモデータを使用
                 this.articlesData = this.getDemoArticles();
             }
+
+            // ユーザー投稿記事をLocalStorageから読み込み（静的サイト用）
+            const userArticles = JSON.parse(localStorage.getItem('published_articles') || '[]');
+            if (userArticles.length > 0) {
+                // ユーザー記事を既存記事とマージ（重複排除）
+                const existingIds = new Set(this.articlesData.map(a => a.id));
+                const newUserArticles = userArticles.filter(a => !existingIds.has(a.id));
+                
+                // 時系列で並び替え（新しい記事が先頭）
+                this.articlesData = [...newUserArticles, ...this.articlesData]
+                    .sort((a, b) => new Date(b.publish_date) - new Date(a.publish_date));
+            }
         } catch (error) {
             console.log('記事データの読み込みに失敗しました。デモデータを使用します。');
             this.articlesData = this.getDemoArticles();
+            
+            // ユーザー記事も追加
+            const userArticles = JSON.parse(localStorage.getItem('published_articles') || '[]');
+            this.articlesData = [...userArticles, ...this.articlesData];
         }
     }
 

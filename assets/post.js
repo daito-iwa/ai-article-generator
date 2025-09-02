@@ -367,14 +367,62 @@ class PostEditor {
     }
 
     async submitToGitHub(formData) {
-        // GitHub Issues APIへの投稿をシミュレート
-        // 実際の実装では、GitHub Issues APIまたは別のストレージサービスに投稿
-        return new Promise((resolve) => {
-            setTimeout(() => {
-                console.log('記事データ:', formData);
-                resolve();
-            }, 2000);
-        });
+        // 記事データを作成
+        const article = {
+            title: formData.title,
+            summary: formData.summary || `${formData.title}について、詳しく解説します。`,
+            content: formData.content,
+            tags: Utils.normalizeTags(formData.tags),
+            category: this.getCategoryName(formData.category),
+            author: formData.author,
+            author_role: "寄稿者",
+            author_avatar: formData.author.split(' ').map(n => n[0]).join('').toUpperCase(),
+            publish_date: new Date().toISOString().slice(0, 16).replace('T', ' '),
+            id: `user_${Date.now()}`,
+            views: 0,
+            likes: 0,
+            comments: 0,
+            user_generated: true
+        };
+
+        // 既存記事を読み込み
+        let articles = [];
+        try {
+            const response = await fetch('./data/articles.json');
+            if (response.ok) {
+                articles = await response.json();
+            }
+        } catch (error) {
+            console.warn('既存記事の読み込みに失敗しました:', error);
+        }
+
+        // 新しい記事を追加
+        articles.unshift(article);
+
+        // LocalStorageに保存（静的サイトのため）
+        localStorage.setItem('user_articles', JSON.stringify(articles));
+        
+        // 公開記事リストにも追加
+        let publishedArticles = JSON.parse(localStorage.getItem('published_articles') || '[]');
+        publishedArticles.unshift(article);
+        localStorage.setItem('published_articles', JSON.stringify(publishedArticles));
+
+        console.log('記事を公開しました:', article);
+        return Promise.resolve(article);
+    }
+
+    getCategoryName(categoryValue) {
+        const categoryMap = {
+            'programming': 'プログラミング',
+            'ai': 'AI・機械学習',
+            'business': 'ビジネス',
+            'design': 'デザイン',
+            'lifestyle': 'ライフスタイル',
+            'finance': '投資・副業',
+            'career': 'キャリア',
+            'other': 'その他'
+        };
+        return categoryMap[categoryValue] || 'その他';
     }
 
     showMessage(message, type) {
