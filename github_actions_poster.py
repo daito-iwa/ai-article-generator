@@ -1018,25 +1018,11 @@ Twitter、Instagram、TikTokでの反応をチェック！
 
 #### ブレイクポイント戦略
 
-```css
-/* モバイル (デフォルト) */
-.container { width: 100%; }
-
-/* タブレット */
-@media (min-width: 768px) {
-  .container { width: 750px; }
-}
-
-/* デスクトップ */
-@media (min-width: 1024px) {
-  .container { width: 1000px; }
-}
-
-/* 大画面 */
-@media (min-width: 1400px) {
-  .container { width: 1200px; }
-}
-```
+モバイルファースト設計により、以下のようなブレイクポイントを設定：
+- モバイル: デフォルト (100%幅)
+- タブレット: 768px以上 (750px幅)
+- デスクトップ: 1024px以上 (1000px幅)
+- 大画面: 1400px以上 (1200px幅)
 
 ## UI/UXデザインの実践
 
@@ -1072,24 +1058,11 @@ Twitter、Instagram、TikTokでの反応をチェック！
 
 #### 具体的な実装
 
-```html
-<!-- 適切なalt属性 -->
-<img src="graph.png" alt="2024年売上推移グラフ：前年比150%の成長">
-
-<!-- セマンティックHTML -->
-<nav role="navigation" aria-label="メインナビゲーション">
-  <ul>
-    <li><a href="/" aria-current="page">ホーム</a></li>
-    <li><a href="/about">会社概要</a></li>
-  </ul>
-</nav>
-
-<!-- コントラスト比の確保 -->
-.text-primary {
-  color: #2563eb; /* コントラスト比 4.5:1 以上 */
-  background: #ffffff;
-}
-```
+**実装例**:
+- 適切なalt属性: 画像の内容を具体的に説明
+- セマンティックHTML: nav, article, sectionなどの意味的要素を使用
+- ARIAラベル: スクリーンリーダー対応
+- コントラスト比: 文字と背景の十分なコントラストを確保（4.5:1以上）
 
 ## ツールと制作環境
 
