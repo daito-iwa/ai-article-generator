@@ -320,22 +320,25 @@ class ArticlesLoader {
     }
 
     getTimeAgo(dateString) {
-        const date = new Date(dateString);
+        // UTC時刻として解釈し、日本時間（+9時間）に変換
+        const utcDate = new Date(dateString + ' UTC');
+        const jstDate = new Date(utcDate.getTime() + (9 * 60 * 60 * 1000));
         const now = new Date();
-        const diff = now - date;
+        const diff = now - jstDate;
         
         const minutes = Math.floor(diff / 60000);
         const hours = Math.floor(diff / 3600000);
         const days = Math.floor(diff / 86400000);
         
         if (minutes < 60) {
+            if (minutes <= 0) return '今';
             return `${minutes}分前`;
         } else if (hours < 24) {
             return `${hours}時間前`;
         } else if (days < 7) {
             return `${days}日前`;
         } else {
-            return date.toLocaleDateString('ja-JP');
+            return jstDate.toLocaleDateString('ja-JP');
         }
     }
 
