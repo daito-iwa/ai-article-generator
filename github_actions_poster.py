@@ -236,7 +236,7 @@ const example = {{
   timeToLearn: '1-3ヶ月'
 }};
 
-console.log(`${{example.skill}}を習得するには${{example.timeToLearn}}程度かかります`);
+console.log(example.skill + 'を習得するには' + example.timeToLearn + '程度かかります');
 ```
 
 ## 実践的な活用方法
@@ -253,23 +253,23 @@ console.log(`${{example.skill}}を習得するには${{example.timeToLearn}}程�
 
 ```python
 # Python例：基本的な実装
-class {topic.replace(' ', '')}Manager:
+class ExampleManager:
     def __init__(self):
         self.config = {{}}
     
     def setup(self):
-        print(f"{topic}のセットアップを開始します")
+        print("{topic}のセットアップを開始します")
         return True
     
     def execute(self):
-        print(f"{topic}を実行しています")
+        print("{topic}を実行しています")
         return "成功"
 
 # 使用例
-manager = {topic.replace(' ', '')}Manager()
+manager = ExampleManager()
 if manager.setup():
     result = manager.execute()
-    print(f"結果: {{result}}")
+    print("結果: " + result)
 ```
 
 ### ステップ3: 応用とカスタマイズ
