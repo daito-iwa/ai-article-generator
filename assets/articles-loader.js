@@ -3,6 +3,8 @@
 class ArticlesLoader {
     constructor() {
         this.articlesData = [];
+        this.currentPage = 1;
+        this.articlesPerPage = 10;
         this.init();
     }
 
@@ -99,9 +101,22 @@ class ArticlesLoader {
                 </div>
             `;
         } else {
+            // ページング処理
+            const startIndex = (this.currentPage - 1) * this.articlesPerPage;
+            const endIndex = startIndex + this.articlesPerPage;
+            const currentArticles = this.articlesData.slice(startIndex, endIndex);
+            
             // 実在する記事を表示
-            const html = this.articlesData.map(article => this.createArticleCard(article)).join('');
-            container.innerHTML = `<div class="articles-list">${html}</div>`;
+            const html = currentArticles.map(article => this.createArticleCard(article)).join('');
+            
+            // ページネーションを追加
+            const totalPages = Math.ceil(this.articlesData.length / this.articlesPerPage);
+            const paginationHtml = this.createPagination(totalPages);
+            
+            container.innerHTML = `
+                <div class="articles-list">${html}</div>
+                ${paginationHtml}
+            `;
         }
     }
 
@@ -275,6 +290,52 @@ class ArticlesLoader {
     // 記事詳細ページ用のデータ取得
     getArticleById(id) {
         return this.articlesData.find(article => article.id === id);
+    }
+    
+    // ページネーション作成
+    createPagination(totalPages) {
+        if (totalPages <= 1) return '';
+        
+        let paginationHtml = '<div class="pagination">';
+        
+        // 前へボタン
+        if (this.currentPage > 1) {
+            paginationHtml += `<button class="page-btn" onclick="window.articlesLoader.changePage(${this.currentPage - 1})">
+                <i class="fas fa-chevron-left"></i> 前へ
+            </button>`;
+        }
+        
+        // ページ番号
+        for (let i = 1; i <= totalPages; i++) {
+            if (i === this.currentPage) {
+                paginationHtml += `<span class="page-num active">${i}</span>`;
+            } else {
+                paginationHtml += `<button class="page-num" onclick="window.articlesLoader.changePage(${i})">${i}</button>`;
+            }
+        }
+        
+        // 次へボタン
+        if (this.currentPage < totalPages) {
+            paginationHtml += `<button class="page-btn" onclick="window.articlesLoader.changePage(${this.currentPage + 1})">
+                次へ <i class="fas fa-chevron-right"></i>
+            </button>`;
+        }
+        
+        paginationHtml += '</div>';
+        
+        // 記事数表示
+        const start = (this.currentPage - 1) * this.articlesPerPage + 1;
+        const end = Math.min(this.currentPage * this.articlesPerPage, this.articlesData.length);
+        paginationHtml += `<div class="articles-count">全${this.articlesData.length}件中 ${start}-${end}件を表示</div>`;
+        
+        return paginationHtml;
+    }
+    
+    // ページ変更
+    changePage(page) {
+        this.currentPage = page;
+        this.displayArticles();
+        window.scrollTo(0, 0);
     }
 }
 
