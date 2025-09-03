@@ -51,68 +51,139 @@ class ArticlePageApp {
 
     renderArticle(article) {
         // タイトルとメタデータを更新
-        document.title = `${article.title} - TechNote`;
+        document.title = `${article.title} - ViralHub`;
         document.getElementById('article-title').textContent = article.title;
         document.getElementById('article-description').setAttribute('content', article.summary);
+        
+        // パンくずリストのカテゴリーを更新
+        document.getElementById('breadcrumb-category').textContent = article.category;
 
         // 記事コンテンツを更新
-        const articleContainer = document.querySelector('.article-container');
+        const articleContainer = document.querySelector('.article-main');
         if (articleContainer) {
             articleContainer.innerHTML = `
-                <article class="article">
-                    <header class="article-header">
-                        <div class="article-category">
-                            <span class="category-tag">${article.category}</span>
-                        </div>
-                        <h1 class="article-title">${article.title}</h1>
-                        <div class="article-meta">
-                            <div class="author-info">
-                                <img src="https://via.placeholder.com/48x48?text=${article.author_avatar}" alt="${article.author}" class="author-avatar">
-                                <div class="author-details">
-                                    <span class="author-name">${article.author}</span>
-                                    <span class="author-role">${article.author_role}</span>
-                                    <time class="publish-date">${this.formatDate(article.publish_date)}</time>
-                                </div>
-                            </div>
-                            <div class="article-stats">
-                                <span class="stat">
-                                    <i class="fas fa-eye"></i>
-                                    ${article.views || 0}
-                                </span>
-                                <span class="stat" data-article-id="${article.id}">
-                                    <i class="far fa-heart"></i>
-                                    <span class="like-count">${article.likes || 0}</span>
-                                </span>
-                            </div>
-                        </div>
-                    </header>
-
-                    <div class="article-content">
-                        ${this.convertMarkdownToHTML(article.content)}
+                <!-- 記事ヘッダー -->
+                <header class="article-header">
+                    <div class="article-tags" id="article-tags">
+                        ${article.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
                     </div>
+                    
+                    <h1 class="article-title" id="main-article-title">
+                        ${article.title}
+                    </h1>
+                    
+                    <div class="article-meta">
+                        <div class="author-section">
+                            <img src="https://via.placeholder.com/48x48?text=${article.author_avatar}" alt="${article.author}" class="author-avatar">
+                            <div class="author-info">
+                                <div class="author-name">${article.author}</div>
+                                <div class="author-role">${article.author_role}</div>
+                                <div class="author-stats">記事投稿者</div>
+                            </div>
+                            <button class="follow-btn">
+                                <i class="fas fa-plus"></i>
+                                フォロー
+                            </button>
+                        </div>
+                        
+                        <div class="article-stats-section">
+                            <div class="publish-info">
+                                <span class="publish-date">${this.formatDate(article.publish_date)}</span>
+                                <span class="read-time">読了時間: 約${Math.ceil(article.content.length / 600)}分</span>
+                            </div>
+                            
+                            <div class="article-actions">
+                                <button class="action-btn like-btn" data-article-id="${article.id}">
+                                    <i class="far fa-heart"></i>
+                                    <span class="count">${article.likes || 0}</span>
+                                </button>
+                                <button class="action-btn bookmark-btn">
+                                    <i class="far fa-bookmark"></i>
+                                    <span class="count">0</span>
+                                </button>
+                                <button class="action-btn share-btn">
+                                    <i class="fas fa-share"></i>
+                                    シェア
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </header>
 
-                    <footer class="article-footer">
-                        <div class="article-tags">
-                            ${article.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
+                <!-- AdSense 記事上部 -->
+                <div class="ad-banner article-ad">
+                    <ins class="adsbygoogle"
+                         style="display:block"
+                         data-ad-client="ca-pub-XXXXXXXXXX"
+                         data-ad-slot="XXXXXXXXXX"
+                         data-ad-format="auto"></ins>
+                </div>
+
+                <!-- 記事本文 -->
+                <div class="article-content" id="article-body">
+                    ${this.convertMarkdownToHTML(article.content)}
+                </div>
+
+                <!-- 記事フッター -->
+                <footer class="article-footer">
+                    <div class="article-actions-bottom">
+                        <button class="action-btn-large like-btn" data-article-id="${article.id}">
+                            <i class="far fa-heart"></i>
+                            いいね<span class="count">${article.likes || 0}</span>
+                        </button>
+                        <button class="action-btn-large bookmark-btn">
+                            <i class="far fa-bookmark"></i>
+                            ブックマーク<span class="count">0</span>
+                        </button>
+                        <button class="action-btn-large share-btn">
+                            <i class="fas fa-share"></i>
+                            シェア
+                        </button>
+                    </div>
+                    
+                    <div class="article-tags-bottom" id="article-tags-bottom">
+                        ${article.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
+                    </div>
+                </footer>
+
+                <!-- AdSense 記事下部 -->
+                <div class="ad-banner article-ad">
+                    <ins class="adsbygoogle"
+                         style="display:block"
+                         data-ad-client="ca-pub-XXXXXXXXXX"
+                         data-ad-slot="XXXXXXXXXX"
+                         data-ad-format="auto"></ins>
+                </div>
+
+                <!-- コメントセクション -->
+                <section class="comments-section">
+                    <h3>コメント <span class="comment-count">(0)</span></h3>
+                    
+                    <!-- コメント投稿フォーム -->
+                    <div class="comment-form">
+                        <div class="comment-input-area">
+                            <img src="https://via.placeholder.com/40x40?text=YOU" alt="あなた" class="comment-avatar">
+                            <textarea placeholder="コメントを入力..." id="comment-input" rows="3"></textarea>
                         </div>
-                        <div class="article-actions">
-                            <button class="action-btn like-btn" data-article-id="${article.id}">
-                                <i class="far fa-heart"></i>
-                                いいね
-                            </button>
-                            <button class="action-btn share-btn" onclick="navigator.share ? navigator.share({title: '${article.title}', url: window.location.href}) : alert('シェア機能はサポートされていません')">
-                                <i class="fas fa-share"></i>
-                                シェア
+                        <div class="comment-actions">
+                            <button class="post-comment-btn" id="post-comment">
+                                <i class="fas fa-paper-plane"></i>
+                                投稿
                             </button>
                         </div>
-                    </footer>
-                </article>
+                    </div>
+                    
+                    <!-- コメント一覧 -->
+                    <div class="comments-list" id="comments-list">
+                        <!-- コメントは動的に追加 -->
+                    </div>
+                </section>
             `;
         }
     }
 
     showError(message) {
-        const articleContainer = document.querySelector('.article-container');
+        const articleContainer = document.querySelector('.article-main');
         if (articleContainer) {
             articleContainer.innerHTML = `
                 <div class="error-state">

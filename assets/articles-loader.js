@@ -9,17 +9,14 @@ class ArticlesLoader {
     }
 
     async init() {
+        // LocalStorageからテスト記事を削除（一度だけ実行）
+        this.cleanupTestArticles();
+        
         // 記事データを読み込み
         await this.loadArticles();
         
         // 記事を表示
         this.displayArticles();
-        
-        // デモデータも即座に表示（JSONがまだ反映されていない場合）
-        if (this.articlesData.length === 0) {
-            this.articlesData = this.getDemoArticles();
-            this.displayArticles();
-        }
     }
 
     async loadArticles() {
@@ -33,46 +30,67 @@ class ArticlesLoader {
                 this.articlesData = this.getDemoArticles();
             }
 
-            // ユーザー投稿記事をLocalStorageから読み込み（静的サイト用）
-            const userArticles = JSON.parse(localStorage.getItem('published_articles') || '[]');
-            if (userArticles.length > 0) {
-                // ユーザー記事を既存記事とマージ（重複排除）
-                const existingIds = new Set(this.articlesData.map(a => a.id));
-                const newUserArticles = userArticles.filter(a => !existingIds.has(a.id));
-                
-                // 時系列で並び替え（新しい記事が先頭）
-                this.articlesData = [...newUserArticles, ...this.articlesData]
-                    .sort((a, b) => new Date(b.publish_date) - new Date(a.publish_date));
-            }
+            // LocalStorageは無視 - 実際のGitHub記事のみ表示
+            // 偽のデモ記事を排除するため、LocalStorageからの読み込みを完全に無効化
         } catch (error) {
             console.log('記事データの読み込みに失敗しました。デモデータを使用します。');
             this.articlesData = this.getDemoArticles();
             
-            // ユーザー記事も追加
-            const userArticles = JSON.parse(localStorage.getItem('published_articles') || '[]');
-            this.articlesData = [...userArticles, ...this.articlesData];
+            // LocalStorageは無視 - 実際のGitHub記事のみ表示
         }
     }
 
     getDemoArticles() {
-        // 実際のarticles.jsonと同じデータのみ返す（フォールバック用）
-        return [
-            {
-                id: "auto_1756565303",
-                title: "AR/VRの基礎知識と実践方法",
-                summary: "AR/VRについて、初心者にも分かりやすく解説します。実践的なテクニックと最新情報をお届けします。",
-                author: "M.Y",
-                author_role: "ライフスタイル",
-                author_avatar: "MY",
-                publish_date: "2025-08-30 23:48",
-                category: "副業",
-                tags: ["AR/VR", "副業", "初心者向け"],
-                views: 0,
-                likes: 0,
-                comments: 0,
-                featured: true
-            }
+        // フォールバック用 - 空の配列を返してLocalStorageの干渉を防ぐ
+        // 実際のデータはGitHub articles.jsonから読み込む
+        return [];
+    }
+
+    cleanupTestArticles() {
+        // テスト記事のタイトルリスト（完全に削除対象）
+        const testTitles = [
+            'React 18の新機能Concurrent Featuresを深掘り',
+            'Docker Composeで開発環境を劇的に改善する方法', 
+            'TypeScript 5.0で変わった型システムの新機能',
+            'ChatGPT APIを使った自動記事生成システムを構築してみた'
         ];
+        
+        // テスト記事の作者名（すべて偽の作者）
+        const testAuthors = ['T.K', 'K.H', 'A.M'];
+        
+        try {
+            // published_articlesを完全にクリア（静的サイトのためLocalStorageは不要）
+            const articles = JSON.parse(localStorage.getItem('published_articles') || '[]');
+            const originalLength = articles.length;
+            
+            // 実際のGitHub記事IDパターンに合致しない記事をすべて削除
+            const realArticles = articles.filter(article => {
+                // GitHub Actions生成記事のみ保持（IDがauto_で始まる実際のもの）
+                const isRealGitHubArticle = article.id && article.id.startsWith('auto_') && 
+                                          !testTitles.includes(article.title) &&
+                                          !testAuthors.includes(article.author);
+                return isRealGitHubArticle && article.user_generated === true;
+            });
+            
+            // LocalStorageを更新（実質的にほぼクリア）
+            localStorage.setItem('published_articles', JSON.stringify(realArticles));
+            
+            if (originalLength > realArticles.length) {
+                console.log(`LocalStorageから${originalLength - realArticles.length}件のテスト記事を削除しました`);
+            }
+            
+            // デモンストレーション用のダミーデータもクリア
+            if (localStorage.getItem('demo_articles')) {
+                localStorage.removeItem('demo_articles');
+                console.log('デモ記事データを削除しました');
+            }
+            
+        } catch (error) {
+            console.log('LocalStorageのクリーンアップに失敗:', error);
+            // エラーの場合は完全にクリア
+            localStorage.removeItem('published_articles');
+            localStorage.removeItem('demo_articles');
+        }
     }
 
     displayArticles() {
